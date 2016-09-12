@@ -5,7 +5,7 @@ import {stringToArray} from '../db/tools';
 
 class FilmDB extends JsonDB {
 	constructor() {
-		super('../data/films');
+		super('./data/films.json');
 	}
 
 	load() {
@@ -13,8 +13,8 @@ class FilmDB extends JsonDB {
 			this._items = this._items
 				.sort((film1, film2) => film1.episode_id < film2.episode_id ? -1 : 1)
 				.map(item => {
-					const obj = Object.create(item);
-					obj.producer = stringToArray(item.producer);
+					const obj = Object.assign({}, item);
+					obj.producers = stringToArray(item.producer);
 					return obj;
 				});
 			return this;
@@ -31,4 +31,6 @@ class FilmDB extends JsonDB {
 	}
 }
 
-export default new FilmDB();
+const filmDB = new FilmDB();
+
+export default filmDB;

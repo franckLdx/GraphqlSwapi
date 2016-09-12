@@ -1,11 +1,11 @@
 'use strict';
 
-import { expect } from 'chai';
+import {expect} from 'chai';
 import {describe, it} from 'mocha';
 import request from 'supertest';
 
 import jsonFilms from '../../../data/films.json';
-import { app } from '../../../src/app.js';
+import { createApp } from '../../../src/app.js';
 
 const expectedFilms =
 	  jsonFilms
@@ -29,7 +29,14 @@ function getFieldsExtractor(...fields) {
 	};
 }
 
+let app;
 describe('Films tests suite', function() {
+	before(function(done) {
+		createApp().then(
+			(_app) => { app = _app; done();},
+			(err) => { done(err); }
+		);
+	})
 	describe('Films list tests suite', function() {
 		it('Films list should be in episode order (starting from The Phantom Menace) along with valid data', function(done) {
 			request(app)

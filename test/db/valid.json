@@ -1,5 +1,10 @@
 [
 	{
-		"id":"foo"
+		"id":"1",
+		"title": "menace"
+	},
+	{
+		"id":2,
+		"title": "sith"
 	}
 ]

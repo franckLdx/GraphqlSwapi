@@ -8,9 +8,10 @@ export default class JsonDB {
 		this._items = undefined;
 	}
 
-	load() {
+	load(transformer=undefined) {
 		return fs.readFile(this._fileName).then((string) => {
-			this._items = JSON.parse(string);
+			const raw = JSON.parse(string);
+			this._items = transformer ? raw.map(transformer) : raw;
 			return this;
 		});
 	}

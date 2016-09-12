@@ -12,7 +12,6 @@ import { characterType, findByUrls as findCharacters } from './characters.js';
 import { speciesType, findByUrls as findSpecies } from './species.js';
 
 import filmsDB from '../../data/films.js';
-filmsDB.load().catch((err) => { throw new Error(err);});
 
 export const filmType = new GraphQLObjectType({
 	name: 'Film',
