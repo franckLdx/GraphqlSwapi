@@ -15,7 +15,7 @@ import filmsDB from '../data/films.js';
 import charactersDB from '../data/characters.js';
 import speciesDB from '../data/species.js';
 
-import { getFindByUrls, getStringToArray } from './tools.js';
+import { getFindByUrls, getResolveStringToArray } from './tools.js';
 
 export const filmType = new GraphQLObjectType({
 	name: 'Film',
@@ -50,7 +50,7 @@ export const filmType = new GraphQLObjectType({
     	},
     	producers: {
       		type: new GraphQLNonNull(new GraphQLList(GraphQLString)),
-      		resolve: getStringToArray('producer') ,
+      		resolve: getResolveStringToArray('producer') ,
       		description: `The name(s) of the producer(s) of this film.`
 		},
     	release_date: {

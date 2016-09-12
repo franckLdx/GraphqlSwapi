@@ -4,8 +4,8 @@ import { expect } from 'chai';
 import {describe, it} from 'mocha';
 import request from 'supertest';
 
-import jsonFilms from '../data/films.json';
-import { app } from '../src/app.js';
+import jsonFilms from '../../data/films.json';
+import { app } from '../../src/app.js';
 
 const expectedFilms =
 	  jsonFilms

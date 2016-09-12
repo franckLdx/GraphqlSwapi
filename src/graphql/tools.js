@@ -1,16 +1,13 @@
 'use strict';
 
 export function stringToArray(string, separator=',') {
-	if (!string) {
+	if (string === undefined || string === null) {
 		return [];
 	}
     return string
+		.trim() // Something like '   ' must processed as ''
 		.split(separator)
 		.map(s => s.trim());
-}
-
-export function getStringToArray(fieldName, separator=',') {
-	return obj => stringToArray(obj[fieldName], separator);
 }
 
 export function getResolveStringToArray(fieldName, separator=',') {
