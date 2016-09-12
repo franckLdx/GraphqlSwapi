@@ -1,9 +1,6 @@
 'use strict';
 
 import charactersDB from '../../data/characters.js';
-import filmsDB from '../../data/films.js';
-import speciesDB from '../../data/species.js';
-
 
 import {
 	GraphQLObjectType,
@@ -12,10 +9,8 @@ import {
 	GraphQLNonNull
 } from 'graphql';
 
-import { filmType } from './films.js';
-import { speciesType } from './species.js';
-
-import { getFindByUrls } from '../tools.js';
+import { filmType, findByUrl as findFilms } from './films.js';
+import { speciesType, findByUrl as findSpecies } from './species.js';
 
 export const characterType = new GraphQLObjectType({
 	name: 'characters',
@@ -60,14 +55,12 @@ export const characterType = new GraphQLObjectType({
 			films: {
 				type: new GraphQLList(filmType),
 				description : 'An array of film resource URLs that this person has been in.',
-				resolve: ({films}) => {
-					return films.map(url => filmsDB.findByUrl(url));
-				}
+				resolve: ({films}) => findFilms(films),
 			},
 			species: {
 				type: new GraphQLNonNull(new GraphQLList(speciesType)),
 				description: 'Species that this person belonds to.',
-				resolve: getFindByUrls(speciesDB, 'species')
+				resolve: ({species}) => findSpecies(species),
 			}
 			//starships array -- An array of starship resource URLs that this person has piloted.
 			//vehicles array -- An array of vehicle resource URLs that this person has piloted.
@@ -93,3 +86,5 @@ export const charactersByName = {
 		return charactersDB.findbyName();
 	}
 };
+
+export const findByUrls = charactersDB.findByUrl;

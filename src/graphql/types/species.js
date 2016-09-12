@@ -8,10 +8,6 @@ import {
 	GraphQLEnumType
 } from 'graphql';
 
-import charactersType from './characters.js';
-import filmsType from './films.js';
-import { getResolveStringToArray } from '../tools';
-
 import speciesDB from '../../data/species.js';
 
 export const classificationType = new GraphQLEnumType({
@@ -66,17 +62,14 @@ export const speciesType = new GraphQLObjectType({
 		eye_colors: {
 			type: new GraphQLNonNull(new GraphQLList(GraphQLString)),
 			description: 'List of common eye colors for this species, empty if this species does not typically have eyes.',
-			resolve: getResolveStringToArray('eye_colors')
 		},
 		hair_colors: {
 			type: new GraphQLNonNull(new GraphQLList(GraphQLString)),
 			description: 'List of common hair colors for this species, empty if this species does not typically have hair (or have no hair at all).',
-			resolve: getResolveStringToArray('hair_colors')
 		},
 		skin_colors: {
 			type: new GraphQLNonNull(new GraphQLList(GraphQLString)),
 			description: 'List of common skin colors for this species, empty if this species does not typically have skin.',
-			resolve: getResolveStringToArray('hair_colors')
 		},
 		language: {
 			type: GraphQLString,
@@ -106,3 +99,5 @@ export const speciesQuery = {
 		return speciesDB.findAll();
 	}
 };
+
+export const findByUrls = speciesDB.findByUrl;

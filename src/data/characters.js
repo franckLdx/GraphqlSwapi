@@ -1,16 +1,18 @@
 'use strict';
 
-import data from '../../data/people.json';
-const characters = data.sort(({name1}, {name2}) => name1 < name2 ? -1 : 1);
+import JsonDB from '../db/jsonDB';
 
-const charactersDB = {
-	findAll() {
-		return characters;
-	},
+class CharactersDB extends JsonDB {
+	constructor() {
+		super('../../data/people.json');
+	}
 
-	findByUrl(url) {
-		return characters.find(characters => characters.url===url);
+	load() {
+		super.load().then(() => {
+			this._items = this._items.sort(({name1}, {name2}) => name1 < name2 ? -1 : 1);
+			return this;
+		});
 	}
 };
 
-export default charactersDB;
+export default new CharactersDB;

@@ -8,14 +8,11 @@ import {
 	GraphQLNonNull
 } from 'graphql';
 
-import { characterType } from './characters.js';
-import { speciesType } from './species.js';
+import { characterType, findByUrls as findCharacters } from './characters.js';
+import { speciesType, findByUrls as findSpecies } from './species.js';
 
 import filmsDB from '../../data/films.js';
-import charactersDB from '../../data/characters.js';
-import speciesDB from '../../data/species.js';
-
-import { getFindByUrls, getResolveStringToArray } from '../tools.js';
+filmsDB.load().catch((err) => { throw new Error(err);});
 
 export const filmType = new GraphQLObjectType({
 	name: 'Film',
@@ -37,12 +34,14 @@ export const filmType = new GraphQLObjectType({
     	characters: {
 			type: new GraphQLNonNull(new GraphQLList(characterType)),
 			description: 'An array of characters that are in this film',
-			resolve: getFindByUrls(charactersDB, 'characters')
+			resolve: ({people}) => {
+				findCharacters(people);
+			}
 		},
 		species: {
 			type: new GraphQLNonNull(new GraphQLList(speciesType)),
 			description: 'An array of characters that are in this film',
-			resolve: getFindByUrls(speciesDB, 'species')
+			resolve: ({species}) => findSpecies(species),
 		},
 		director: {
       		type: GraphQLString,
@@ -50,12 +49,10 @@ export const filmType = new GraphQLObjectType({
     	},
     	producers: {
       		type: new GraphQLNonNull(new GraphQLList(GraphQLString)),
-      		resolve: getResolveStringToArray('producer') ,
       		description: `The name(s) of the producer(s) of this film.`
 		},
     	release_date: {
       		type: GraphQLString,
-      		resolve: (film) => film.release_date,
       		description: `The ISO 8601 date format of film release at original creator country.`
     	},
     	//starshipConnection

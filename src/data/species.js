@@ -1,16 +1,25 @@
 'use strict';
 
-import data from '../../data/species.json';
-const species = data.sort(({name1}, {name2}) => name1 < name2 ? -1 : 1);
+import JsonDB from '../db/jsonDB';
 
-const speciesDB = {
-	findAll() {
-		return species;
-	},
-
-	findByUrl(url) {
-		return species.find(species => species.url===url);
+class SpeciesDB extends JsonDB {
+	constructor() {
+		super('../../data/species.json');
 	}
+
+	/*load() {
+		super.load().then(() => {
+			this._items = this._items
+				.sort(({name1}, {name2}) => name1 < name2 ? -1 : 1))
+				.map(item=> {
+					const obj = Object.create(item);
+					obj.eye_colors = stringToArray(item.eye_colors);
+					obj.hair_colors = stringToArray(item.hair_colors);
+					obj.skin_colors = stringToArray(item.skin_colors);
+				});
+			return this;
+		});
+	}*/
 };
 
-export default speciesDB;
+export default new SpeciesDB;

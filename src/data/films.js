@@ -1,30 +1,34 @@
 'use strict';
 
-import data from '../../data/films.json';
+import JsonDB from '../db/jsonDB';
+import {stringToArray} from '../db/tools';
 
-const films = data.sort((film1, film2) => film1.episode_id < film2.episode_id ? -1 : 1);
+class FilmDB extends JsonDB {
+	constructor() {
+		super('../data/films');
+	}
 
-const filmsDB = {
-	findAll() {
-		return films;
-	},
+	load() {
+		return super.load().then(() => {
+			this._items = this._items
+				.sort((film1, film2) => film1.episode_id < film2.episode_id ? -1 : 1)
+				.map(item => {
+					const obj = Object.create(item);
+					obj.producer = stringToArray(item.producer);
+					return obj;
+				});
+			return this;
+		});
+	}
 
 	findByid(id) {
-		return films.find(film => film.episode_id===id);
-	},
+		return this._items.find(film => film.episode_id===id);
+	}
 
 	findByTitle(title) {
 		const searched = title.toLowerCase();
-		return films.filter(film => film.title.toLowerCase().indexOf(searched)!==-1);
-	},
-
-	findByUrl(url) {
-		return films.find(film => film.url===url);
-	},
-
-	count() {
-		return films.length;
+		return this._items.filter(film => film.title.toLowerCase().indexOf(searched)!==-1);
 	}
-};
+}
 
-export default filmsDB;
+export default new FilmDB();
