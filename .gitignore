@@ -39,3 +39,4 @@ jspm_packages
 # coverage test report
 coverage
 /npm-debug.log
+/.nyc_output/

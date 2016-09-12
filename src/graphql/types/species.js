@@ -10,9 +10,9 @@ import {
 
 import charactersType from './characters.js';
 import filmsType from './films.js';
-import { getResolveStringToArray } from './tools';
+import { getResolveStringToArray } from '../tools';
 
-import speciesDB from '../data/species.js';
+import speciesDB from '../../data/species.js';
 
 export const classificationType = new GraphQLEnumType({
 	name: 'classification',

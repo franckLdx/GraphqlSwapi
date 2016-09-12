@@ -1,9 +1,9 @@
 'use strict';
 
 import { GraphQLObjectType } from 'graphql';
-import { filmsQuery, filmByIdQuery, filmsByTitleQuery } from './films.js';
-import { charactersQuery } from './characters.js';
-import { speciesQuery } from './species.js';
+import { filmsQuery, filmByIdQuery, filmsByTitleQuery } from './types/films.js';
+import { charactersQuery } from './types/characters.js';
+import { speciesQuery } from './types/species.js';
 
 export const query = new GraphQLObjectType({
 	name: 'query',

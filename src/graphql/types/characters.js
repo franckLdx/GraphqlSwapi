@@ -1,8 +1,8 @@
 'use strict';
 
-import charactersDB from '../data/characters.js';
-import filmsDB from '../data/films.js';
-import speciesDB from '../data/species.js';
+import charactersDB from '../../data/characters.js';
+import filmsDB from '../../data/films.js';
+import speciesDB from '../../data/species.js';
 
 
 import {
@@ -15,7 +15,7 @@ import {
 import { filmType } from './films.js';
 import { speciesType } from './species.js';
 
-import { getFindByUrls } from './tools.js';
+import { getFindByUrls } from '../tools.js';
 
 export const characterType = new GraphQLObjectType({
 	name: 'characters',

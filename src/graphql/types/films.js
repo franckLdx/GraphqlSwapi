@@ -11,11 +11,11 @@ import {
 import { characterType } from './characters.js';
 import { speciesType } from './species.js';
 
-import filmsDB from '../data/films.js';
-import charactersDB from '../data/characters.js';
-import speciesDB from '../data/species.js';
+import filmsDB from '../../data/films.js';
+import charactersDB from '../../data/characters.js';
+import speciesDB from '../../data/species.js';
 
-import { getFindByUrls, getResolveStringToArray } from './tools.js';
+import { getFindByUrls, getResolveStringToArray } from '../tools.js';
 
 export const filmType = new GraphQLObjectType({
 	name: 'Film',
