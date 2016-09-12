@@ -125,4 +125,36 @@ describe('Films tests suite', function() {
 				.end(done);
 		});
 	});
+	describe('Related types should be in the response', function() {
+		it('Characters should be in the response', function(done) {
+			request(app)
+				.get('/API/films/')
+				.query({query:'{filmById(id:5){id,title,characters{name}}}'})
+				.expect(200)
+				.expect((response) => {
+					const extractor = getFieldsExtractor('id','title','characters');
+					const expectedResult = extractor(expectedFilms[4]);
+					const actualFilms = response.body.data.filmById;
+					expect(actualFilms.id).to.be.deep.equal(expectedResult.id);
+					expect(actualFilms.title).to.be.deep.equal(expectedResult.title);	expect(actualFilms.characters.length).to.be.deep.equal(expectedResult.characters.length);
+					expect(response.body.errors).to.be.undefined;
+				})
+				.end(done);
+		});
+		it('Species should be in the response', function(done) {
+			request(app)
+				.get('/API/films/')
+				.query({query:'{filmById(id:5){id,title,species{name}}}'})
+				.expect(200)
+				.expect((response) => {
+					const extractor = getFieldsExtractor('id','title','species');
+					const expectedResult = extractor(expectedFilms[4]);
+					const actualFilms = response.body.data.filmById;
+					expect(actualFilms.id).to.be.deep.equal(expectedResult.id);
+					expect(actualFilms.title).to.be.deep.equal(expectedResult.title);	expect(actualFilms.species.length).to.be.deep.equal(expectedResult.species.length);
+					expect(response.body.errors).to.be.undefined;
+				})
+				.end(done);
+		});
+	});
 });

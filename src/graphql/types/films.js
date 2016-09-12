@@ -58,8 +58,6 @@ export const filmType = new GraphQLObjectType({
       		resolve: (film) => film.release_date,
       		description: `The ISO 8601 date format of film release at original creator country.`
     	},
-
-    	//speciesConnection
     	//starshipConnection
     	//vehicleConnection
     	//characterConnection
