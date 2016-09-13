@@ -8,7 +8,7 @@ describe('charactersDB test', function() {
 		charactersDB.load().then(
 			()=>{done();},
 			(err)=>{done(err);}
-		)
+		);
 	});
 	it('Should returns all characters', function() {
 		expect(charactersDB.findAll().length).to.be.deep.equal(87);

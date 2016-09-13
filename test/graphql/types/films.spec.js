@@ -36,7 +36,7 @@ describe('Films tests suite', function() {
 			(_app) => { app = _app; done();},
 			(err) => { done(err); }
 		);
-	})
+	});
 	describe('Films list tests suite', function() {
 		it('Films list should be in episode order (starting from The Phantom Menace) along with valid data', function(done) {
 			request(app)

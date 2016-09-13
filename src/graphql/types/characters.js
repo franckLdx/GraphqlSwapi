@@ -72,18 +72,25 @@ export const characterType = new GraphQLObjectType({
 });
 
 export const charactersQuery = {
-	type: new GraphQLList(characterType),
-	description: 'characters list',
-	resolve: () => {
-		return charactersDB.findAll();
-	}
+	type: new GraphQLNonNull(new GraphQLList(characterType)),
+	description: 'Characters list',
+	resolve: () => charactersDB.findAll()
 };
 
-export const charactersByName = {
-	type: characterType,
-	description: 'A character, searched by it name',
-	resolve: () => {
-		return charactersDB.findbyName();
+export const characterByNameQuery = {
+	type: new GraphQLNonNull(new GraphQLList(characterType)),
+	description: 'Characters, searched by a name (empty is no characters match)',
+	args: {
+		name : {
+			type: new GraphQLNonNull(GraphQLString),
+			description: 'If name="Luke", will return all characters with luke in the name (search is not case senstive)'
+		},
+	},
+	resolve: (context, {name}) => {
+		if (name.length > 2048) {
+			throw new Error("Invalid name value");
+		}
+		return charactersDB.findByName(name);
 	}
 };
 

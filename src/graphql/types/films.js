@@ -61,7 +61,7 @@ export const filmType = new GraphQLObjectType({
 });
 
 export const filmsQuery = {
-	type: new GraphQLList(filmType),
+	type: new GraphQLNonNull(new GraphQLList(filmType)),
 	resolve: () => filmsDB.findAll()
 };
 
@@ -90,3 +90,5 @@ export const filmsByTitleQuery = {
 		return filmsDB.findByTitle(title);
 	}
 };
+
+export const findByUrls = urls => filmsDB.findByUrls(urls);
