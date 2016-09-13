@@ -21,6 +21,14 @@ export default class JsonDB {
 	}
 
 	findByUrl(url) {
-		this._items.find(item => item.url===url);
+		return this.findOne(item => item.url===url);
+	}
+
+	findOne(selector) {
+		return this._items.find(selector);
+	}
+
+	find(selector) {
+		return this._items.filter(selector);
 	}
 }
