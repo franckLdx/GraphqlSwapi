@@ -8,10 +8,9 @@ export default class JsonDB {
 		this._items = undefined;
 	}
 
-	load(transformer=undefined) {
+	load() {
 		return fs.readFile(this._fileName).then((string) => {
-			const raw = JSON.parse(string);
-			this._items = transformer ? raw.map(transformer) : raw;
+			this._items = JSON.parse(string);
 			return this;
 		});
 	}
@@ -38,7 +37,7 @@ export default class JsonDB {
 	}
 
 	findByUrls(urls) {
-		debugger;if (!urls) {
+		if (!urls) {
 			return [];
 		}
 		return urls.map(url => this.findOneByUrl(url));

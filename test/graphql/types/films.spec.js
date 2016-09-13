@@ -7,27 +7,21 @@ import request from 'supertest';
 import jsonFilms from '../../../data/films.json';
 import { createApp } from '../../../src/app.js';
 
-const expectedFilms =
-	  jsonFilms
-		.map((film) => {
-			const result = Object.create(film);
-			result.id = film.episode_id;
-			delete result.episode_id;
-			result.producers = film.producer.split(',').map(s => s.trim());
-			return result;
-		}).sort((film1, film2) => {
-			return film1.id < film2.id ? -1 : 1;
-		});
+import {getFieldsExtractor} from './tools';
 
-function getFieldsExtractor(...fields) {
-	return (film) => {
-		const result = {};
-		for (let field of fields) {
-			result[field] = film[field];
-		}
+const FILMS_QUERY_URL = '/API/films';
+
+const expectedFilms =
+  jsonFilms
+	.map((film) => {
+		const result = Object.create(film);
+		result.id = film.episode_id;
+		delete result.episode_id;
+		result.producers = film.producer.split(',').map(s => s.trim());
 		return result;
-	};
-}
+	}).sort((film1, film2) => {
+		return film1.id < film2.id ? -1 : 1;
+	});
 
 let app;
 describe('Films tests suite', function() {
@@ -40,7 +34,7 @@ describe('Films tests suite', function() {
 	describe('Films list tests suite', function() {
 		it('Films list should be in episode order (starting from The Phantom Menace) along with valid data', function(done) {
 			request(app)
-				.get('/API/films/')
+				.get(FILMS_QUERY_URL)
 				.query({query:'{films{id,title,opening_crawl,director,producers,release_date}}'})
 				.expect(200)
 				.expect((response) => {
@@ -55,7 +49,7 @@ describe('Films tests suite', function() {
 	describe('Films by episode id tests suite', function() {
 		it('Should get the wanted episode', function(done) {
 			request(app)
-				.get('/API/films/')
+				.get(FILMS_QUERY_URL)
 				.query({query:'{filmById(id:5){id,title,opening_crawl,director,producers,release_date}}'})
 				.expect(200)
 				.expect((response) => {
@@ -69,7 +63,7 @@ describe('Films tests suite', function() {
 		});
 		it('Use a non existing episode id, should get a null response', function(done) {
 			request(app)
-				.get('/API/films/')
+				.get(FILMS_QUERY_URL)
 				.query({query:'{filmById(id:10000){id,title,opening_crawl,director,producers,release_date}}'})
 				.expect(200)
 				.expect((response) => {
@@ -81,7 +75,7 @@ describe('Films tests suite', function() {
 	describe('Films by title test suite', function() {
 		it('Should get a film based on his title', function(done) {
 			request(app)
-				.get('/API/films/')
+				.get(FILMS_QUERY_URL)
 				.query({query:'{filmsByTitle(title:"the phantom menace"){id,title,opening_crawl, director,producers,release_date}}'})
 				.expect(200)
 				.expect((response) => {
@@ -96,7 +90,7 @@ describe('Films tests suite', function() {
 		});
 		it('Should get a film based on an extract of his title', function(done) {
 			request(app)
-				.get('/API/films/')
+				.get(FILMS_QUERY_URL)
 				.query({query:'{filmsByTitle(title:"phantom menace"){id,title,opening_crawl, director,producers,release_date}}'})
 				.expect(200)
 				.expect((response) => {
@@ -111,7 +105,7 @@ describe('Films tests suite', function() {
 		});
 		it('Should get an empty list when ask for a dummy title', function(done) {
 			request(app)
-				.get('/API/films/')
+				.get(FILMS_QUERY_URL)
 				.query({query:'{filmsByTitle(title:"donald vador"){id,title,opening_crawl, director,producers,release_date}}'})
 				.expect(200)
 				.expect((response) => {
@@ -122,7 +116,7 @@ describe('Films tests suite', function() {
 		});
 		it('Should get an error when providing an invalid title', function(done) {
 			request(app)
-				.get('/API/films/')
+				.get(FILMS_QUERY_URL)
 				.query({query:'{filmsByTitle(title:"123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"){id,title,opening_crawl, director,producers,release_date}}'})
 				.expect(200)
 				.expect((response) => {
@@ -135,7 +129,7 @@ describe('Films tests suite', function() {
 	describe('Related types should be in the response', function() {
 		it('Characters should be in the response', function(done) {
 			request(app)
-				.get('/API/films/')
+				.get(FILMS_QUERY_URL)
 				.query({query:'{filmById(id:5){id,title,characters{name}}}'})
 				.expect(200)
 				.expect((response) => {
@@ -150,7 +144,7 @@ describe('Films tests suite', function() {
 		});
 		it('Species should be in the response', function(done) {
 			request(app)
-				.get('/API/films/')
+				.get(FILMS_QUERY_URL)
 				.query({query:'{filmById(id:5){id,title,species{name}}}'})
 				.expect(200)
 				.expect((response) => {

@@ -9,7 +9,9 @@ class CharactersDB extends JsonDB {
 
 	load() {
 		return super.load().then(() => {
-			this._items = this._items.sort(({name1}, {name2}) => name1 < name2 ? -1 : 1);
+			this._items = this._items.sort((charcter1,charcter2) => {
+				return charcter1.name < charcter2.name ? -1 : 1;
+			});
 			return this;
 		});
 	}

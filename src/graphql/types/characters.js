@@ -9,8 +9,8 @@ import {
 	GraphQLNonNull
 } from 'graphql';
 
-import { filmType, findByUrl as findFilms } from './films.js';
-import { speciesType, findByUrl as findSpecies } from './species.js';
+import { filmType, findByUrls as findFilms } from './films.js';
+import { speciesType, findByUrls as findSpecies } from './species.js';
 
 export const characterType = new GraphQLObjectType({
 	name: 'characters',

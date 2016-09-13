@@ -31,21 +31,6 @@ describe('JsonDB test', function() {
 				done
 			);
 		});
-		it('Loading a valid json file should work, event with a transformation', function(done) {
-			const valid = new JsonDB(`${dataDir}/valid.json`);
-			valid.load(item => {
-				const obj = Object.create(item);
-				obj.id *= 100;
-				return obj;
-			}).then(
-				(db) => {
-					const items = db.findAll();
-					expect(items[0].id).to.be.equal(100);
-					expect(items[1].id).to.be.equal(200);
-					done();
-				}
-			).catch(done);
-		});
 	});
 	describe('find methods tests', function() {
 		let db;
