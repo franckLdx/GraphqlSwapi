@@ -67,6 +67,32 @@ describe('JsonDB test', function() {
 				expect(db.findOne(item => item.id==='f!crxe*?;')).to.be.undefined;
 			});
 		});
+		describe('findOneByUrl method tests', function() {
+			it('findOneByUrl should return the machting item', function() {
+				const url = "http://swapi.co/api/films/1/";
+				expect(db.findOneByUrl(url).url).to.be.deep.equal(url);
+			});
+			it('findOneByUrl should return undefined when no item match', function() {
+				const url = "http://swapi.co/api/films/42084239/";
+				expect(db.findOneByUrl()).to.be.undefined;
+			});
+		});
+		describe('findString method tests', function() {
+			it('findString should return the machting item', function() {
+				const string = "PhantoM";
+				const result = db.findString(string, 'misc');
+				expect(result.length).to.be.deep.equal(1);
+				expect(result[0].misc.toLowerCase()).to.contain(string.toLowerCase());
+			});
+			it('findString should return undefined when no item match', function() {
+				const string = "the";
+				const result = db.findString(string, 'misc');
+				expect(result.length).to.be.deep.equal(2);
+				for (let item of result) {
+					expect(item.misc.toLowerCase()).to.contain(string.toLowerCase());
+				}
+			});
+		});
 		describe('find method tests', function() {
 			it('find should return the machting item', function() {
 				const found = db.find(item => item.id===1);

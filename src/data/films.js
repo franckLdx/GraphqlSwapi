@@ -29,8 +29,7 @@ class FilmDB extends JsonDB {
 	}
 
 	findByTitle(title) {
-		const searched = title.toLowerCase();
-		return this.find(film => film.title.toLowerCase().indexOf(searched)!==-1);
+		return this.findString(title, 'title');
 	}
 }
 
