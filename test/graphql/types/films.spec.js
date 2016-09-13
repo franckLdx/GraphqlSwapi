@@ -30,7 +30,7 @@ function getFieldsExtractor(...fields) {
 }
 
 let app;
-describe.skip('Films tests suite', function() {
+describe('Films tests suite', function() {
 	before(function(done) {
 		createApp().then(
 			(_app) => { app = _app; done();},

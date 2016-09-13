@@ -20,12 +20,12 @@ export default class JsonDB {
 		return this._items;
 	}
 
-	findOneByUrl(url) {
-		return this.findOne(item => item.url===url);
-	}
-
 	findOne(selector) {
 		return this._items.find(selector);
+	}
+
+	findOneByUrl(url) {
+		return this.findOne(item => item.url===url);
 	}
 
 	find(selector) {
@@ -35,5 +35,12 @@ export default class JsonDB {
 	findString(expectedValue, fieldName) {
 		const searched = expectedValue.toLowerCase();
 		return this.find(item => item[fieldName].toLowerCase().indexOf(searched)!==-1);
+	}
+
+	findByUrls(urls) {
+		debugger;if (!urls) {
+			return [];
+		}
+		return urls.map(url => this.findOneByUrl(url));
 	}
 }

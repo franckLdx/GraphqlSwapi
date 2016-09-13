@@ -15,8 +15,9 @@ class SpeciesDB extends JsonDB {
 			obj.hair_colors = stringToArray(specie.hair_colors);
 			obj.skin_colors = stringToArray(specie.skin_colors);
 			return obj;
-		})
+		});
 	}
-};
+}
 
-export default new SpeciesDB;
+const speciesDB = new SpeciesDB();
+export default speciesDB;

@@ -100,4 +100,4 @@ export const speciesQuery = {
 	}
 };
 
-export const findByUrls = speciesDB.findByUrl;
+export const findByUrls = urls => speciesDB.findByUrls(urls);

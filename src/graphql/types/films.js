@@ -23,7 +23,6 @@ export const filmType = new GraphQLObjectType({
 		},
     	id: {
       		type: GraphQLInt,
-      		resolve: (film) => film.episode_id,
       		description:`Episode number`
     	},
     	opening_crawl: {
@@ -33,14 +32,12 @@ export const filmType = new GraphQLObjectType({
     	characters: {
 			type: new GraphQLNonNull(new GraphQLList(characterType)),
 			description: 'An array of characters that are in this film',
-			resolve: ({people}) => {
-				findCharacters(people);
-			}
+			resolve: ({characters}) => findCharacters(characters)
 		},
 		species: {
 			type: new GraphQLNonNull(new GraphQLList(speciesType)),
 			description: 'An array of characters that are in this film',
-			resolve: ({species}) => findSpecies(species),
+			resolve: ({species}) => findSpecies(species)
 		},
 		director: {
       		type: GraphQLString,
@@ -60,14 +57,12 @@ export const filmType = new GraphQLObjectType({
     	//planetConnection
     	//created: createdField(),
     	//edited: editedField(),
-	}},
+	}; }
 });
 
 export const filmsQuery = {
 	type: new GraphQLList(filmType),
-	resolve: () => {
-		return filmsDB.findAll();
-	}
+	resolve: () => filmsDB.findAll()
 };
 
 export const filmByIdQuery = {
@@ -76,9 +71,7 @@ export const filmByIdQuery = {
 	args: {
 		id : {type: new GraphQLNonNull(GraphQLInt)},
 	},
-	resolve: (context, {id}) => {
-		return filmsDB.findByid(id);
-	}
+	resolve: (context, {id}) => filmsDB.findById(id)
 };
 
 export const filmsByTitleQuery = {

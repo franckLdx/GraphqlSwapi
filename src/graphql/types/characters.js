@@ -87,4 +87,4 @@ export const charactersByName = {
 	}
 };
 
-export const findByUrls = charactersDB.findByUrl;
+export const findByUrls = urls => charactersDB.findByUrls(urls);

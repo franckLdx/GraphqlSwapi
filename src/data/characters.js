@@ -17,7 +17,7 @@ class CharactersDB extends JsonDB {
 	findByName(name) {
 		return this.findString(name, 'name');
 	}
-};
+}
 
 const charactersDB = new CharactersDB();
 export default charactersDB;
