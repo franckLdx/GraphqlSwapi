@@ -3,8 +3,6 @@
 import charactersDB from '../../src/data/characters.js';
 import {expect} from 'chai';
 
-const dataDir = './test/db';
-
 describe('charactersDB test', function() {
 	before(function(done) {
 		charactersDB.load().then(

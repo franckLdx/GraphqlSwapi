@@ -1,25 +1,22 @@
 'use strict';
 
 import JsonDB from '../db/jsonDB';
+import {stringToArray} from '../db/tools';
 
 class SpeciesDB extends JsonDB {
 	constructor() {
-		super('../../data/species.json');
+		super('./data/species.json');
 	}
 
-	/*load() {
-		super.load().then(() => {
-			this._items = this._items
-				.sort(({name1}, {name2}) => name1 < name2 ? -1 : 1))
-				.map(item=> {
-					const obj = Object.create(item);
-					obj.eye_colors = stringToArray(item.eye_colors);
-					obj.hair_colors = stringToArray(item.hair_colors);
-					obj.skin_colors = stringToArray(item.skin_colors);
-				});
-			return this;
-		});
-	}*/
+	load() {
+		return super.load(specie => {
+			const obj = Object.create(specie);
+			obj.eye_colors = stringToArray(specie.eye_colors);
+			obj.hair_colors = stringToArray(specie.hair_colors);
+			obj.skin_colors = stringToArray(specie.skin_colors);
+			return obj;
+		})
+	}
 };
 
 export default new SpeciesDB;
