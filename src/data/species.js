@@ -24,6 +24,14 @@ class SpeciesDB extends JsonDB {
 	findByName(name) {
 		return this.findString(name, 'name');
 	}
+
+	findByClassification(classification) {
+		return this.findString(classification, 'classification');
+	}
+
+	findByDesignation(designation) {
+		return this.findString(designation, 'designation');
+	}
 }
 
 const speciesDB = new SpeciesDB();

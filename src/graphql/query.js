@@ -3,7 +3,7 @@
 import { GraphQLObjectType } from 'graphql';
 import { filmsQuery, filmByIdQuery, filmsByTitleQuery } from './types/films.js';
 import { charactersQuery, characterByNameQuery } from './types/characters.js';
-import { speciesQuery, specieByNameQuery } from './types/species.js';
+import { speciesQuery, specieByNameQuery, specieByClassificationQuery, specieByDesignationQuery } from './types/species.js';
 
 export const query = new GraphQLObjectType({
 	name: 'query',
@@ -14,6 +14,8 @@ export const query = new GraphQLObjectType({
 		characters: charactersQuery,
 		characterByName: characterByNameQuery,
 		species: speciesQuery,
-		specieByName: specieByNameQuery
+		specieByName: specieByNameQuery,
+		specieByClassification: specieByClassificationQuery,
+		specieByDesignation: specieByDesignationQuery
 	}
 });

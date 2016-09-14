@@ -20,6 +20,11 @@ const expectedSpecies = jsonSpecies.map(specie => {
 	return obj;
 }).sort((specie1, specie2) => specie1.name < specie2.name ? -1 : 1);
 
+function expectedByField(fieldName,value) {
+	const wanted = value.trim().toUpperCase();
+	return expectedSpecies.filter(s => s[fieldName] === wanted);
+}
+
 const SPECIES_QUERY_URL = '/API/species/';
 
 let app;
@@ -45,7 +50,7 @@ describe('Species tests suite', function() {
 				.end(done);
 		});
 	});
-	describe.only('Species by name test suite', function() {
+	describe('Species by name test suite', function() {
 		it('Should get a specie based on his name', function(done) {
 			request(app)
 				.get(SPECIES_QUERY_URL)
@@ -95,6 +100,37 @@ describe('Species tests suite', function() {
 				.expect((response) => {
 					expect(response.body.data).to.be.null;
 					expect(response.body.errors).not.to.be.undefined;
+				})
+				.end(done);
+		});
+	});
+	describe('Species Classification tests suite', function() {
+		it('Sould return species for the given classification', function(done) {
+			const classification = 'AMPHIBIAN';
+			request(app)
+				.get(SPECIES_QUERY_URL)
+				.query({query:`{specieByClassification(classification:${classification}){name,classification}}`})
+				.expect(200)
+				.expect((response) => {
+					const extractor = getFieldsExtractor('name','classification');
+					const expectedResult = expectedByField('classification', classification).map(extractor);	expect(response.body.data.specieByClassification).to.be.deep.equal(expectedResult);
+					expect(response.body.errors).to.be.undefined;
+				})
+				.end(done);
+		});
+	});
+	describe('Species Designation tests suite', function() {
+		it('Should return species for the given designation', function(done) {
+			const designation = 'SENTIENT';
+			request(app)
+				.get(SPECIES_QUERY_URL)
+				.query({query:`{specieByDesignation(designation:${designation}){name,designation}}`})
+				.expect(200)
+				.expect((response) => {
+					const extractor = getFieldsExtractor('name','designation');
+					const expectedResult = expectedByField('designation', designation).map(extractor);
+					expect(response.body.data.specieByDesignation).to.be.deep.equal(expectedResult);
+					expect(response.body.errors).to.be.undefined;
 				})
 				.end(done);
 		});

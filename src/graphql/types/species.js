@@ -14,7 +14,7 @@ export const classificationType = new GraphQLEnumType({
 	name: 'classification',
 	description: 'Species\' classification',
 	values: {
-		AMPHIBIEN: {value: 'amphibian'},
+		AMPHIBIAN: {value: 'amphibian'},
 		ARTIFICIAL: {value: 'artificial'},
 		GASTROPOD: {value: 'gastropod'},
 		INSECTOID: {value: 'insectoid'},
@@ -114,6 +114,34 @@ export const specieByNameQuery = {
 			throw new Error("Invalid name value");
 		}
 		return speciesDB.findByName(name);
+	}
+};
+
+export const specieByClassificationQuery = {
+	type: new GraphQLNonNull(new GraphQLList(speciesType)),
+	description: 'species list of that classification (empty list if found no species)',
+	args: {
+		classification : {
+			type: new GraphQLNonNull(classificationType),
+			description: 'Classification to search for'
+		},
+	},
+	resolve: (context, {classification}) => {
+		return speciesDB.findByClassification(classification);
+	}
+};
+
+export const specieByDesignationQuery = {
+	type: new GraphQLNonNull(new GraphQLList(speciesType)),
+	description: 'species list of that designation (empty list if found no species)',
+	args: {
+		designation: {
+			type: new GraphQLNonNull(designationType),
+			description: 'Designation to search for'
+		},
+	},
+	resolve: (context, {designation}) => {
+		return speciesDB.findByDesignation(designation);
 	}
 };
 
