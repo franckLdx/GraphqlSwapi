@@ -54,7 +54,25 @@ export const planetType = new GraphQLObjectType({
 
 export const planetsQuery = {
 	type: new GraphQLNonNull(new GraphQLList(planetType)),
+	description: 'Planets list',
 	resolve: () => planetsDB.findAll()
+};
+
+export const planetByNameQuery = {
+	type: new GraphQLNonNull(new GraphQLList(planetType)),
+	description: 'List of the planet whith has a name that contains the given name (empty if no match, search is not case sensitive)',
+	args: {
+		name : {
+			type: new GraphQLNonNull(GraphQLString),
+			description: 'a full or partial planet name'
+		}
+	},
+	resolve: (context, {name}) => {
+		if (name.length > 2048) {
+			throw new Error("Invalid name value");
+		}
+		return planetsDB.findByName(name);
+	}
 };
 
 export const findByUrls = urls => planetsDB.findByUrls(urls);

@@ -23,6 +23,10 @@ class PlanetsDB extends JsonDB {
 		});
 	}
 
+	findByName(name) {
+		return this.findString(name, 'name');
+	}
+
 }
 
 const planetsDB = new PlanetsDB();
