@@ -11,6 +11,8 @@ import {
 import { characterType, findByUrls as findCharacters } from './characters.js';
 import { specieType, findByUrls as findSpecies } from './species.js';
 import { starshipType, findByUrls as findStarships } from './starships.js';
+import { vehicleType, findByUrls as findVehicles } from './vehicles.js';
+
 
 import filmsDB from '../../data/films.js';
 
@@ -44,6 +46,11 @@ export const filmType = new GraphQLObjectType({
 			type: new GraphQLNonNull(new GraphQLList(starshipType)),
       		description: `List of starships that in this film.`,
 			resolve: ({starships}) => findStarships(starships)
+		},
+		vehicles: {
+			type: new GraphQLNonNull(new GraphQLList(vehicleType)),
+      		description: `List of vehicles that in this film.`,
+			resolve: ({vehicles}) => findVehicles(vehicles)
 		},
 		director: {
       		type: GraphQLString,
