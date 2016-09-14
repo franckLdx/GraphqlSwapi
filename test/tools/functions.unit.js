@@ -1,6 +1,6 @@
 'use strict';
 
-import {stringToArray} from '../../src/db/tools.js';
+import {stringToArray} from '../../src/tools/functions';
 import {expect} from 'chai';
 import {describe, it} from 'mocha';
 

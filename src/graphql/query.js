@@ -1,9 +1,10 @@
 'use strict';
 
 import { GraphQLObjectType } from 'graphql';
-import { filmsQuery, filmByIdQuery, filmsByTitleQuery } from './types/films.js';
-import { charactersQuery, characterByNameQuery } from './types/characters.js';
-import { speciesQuery, specieByNameQuery, specieByClassificationQuery, specieByDesignationQuery } from './types/species.js';
+import { filmsQuery, filmByIdQuery, filmsByTitleQuery } from './types/films';
+import { charactersQuery, characterByNameQuery } from './types/characters';
+import { speciesQuery, specieByNameQuery, specieByClassificationQuery, specieByDesignationQuery } from './types/species';
+import { planetsQuery } from './types/planets';
 
 export const query = new GraphQLObjectType({
 	name: 'query',
@@ -16,6 +17,7 @@ export const query = new GraphQLObjectType({
 		species: speciesQuery,
 		specieByName: specieByNameQuery,
 		specieByClassification: specieByClassificationQuery,
-		specieByDesignation: specieByDesignationQuery
+		specieByDesignation: specieByDesignationQuery,
+		planets: planetsQuery
 	}
 });

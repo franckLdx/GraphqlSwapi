@@ -1,7 +1,7 @@
 'use strict';
 
 import JsonDB from '../db/jsonDB';
-import {stringToArray} from '../db/tools';
+import {stringToArray, getSorter} from '../tools/functions';
 
 class FilmDB extends JsonDB {
 	constructor() {
@@ -10,8 +10,8 @@ class FilmDB extends JsonDB {
 
 	load() {
 		return super.load().then(() => {
+			const sorter = getSorter('id');
 			this._items = this._items
-				.sort((film1, film2) => film1.episode_id < film2.episode_id ? -1 : 1)
 				.map(item => {
 					const obj = Object.assign({}, item);
 					obj.id = item.episode_id;
@@ -19,7 +19,7 @@ class FilmDB extends JsonDB {
 					obj.producers = stringToArray(item.producer);
 					delete obj.producer;
 					return obj;
-				});
+				}).sort(sorter);
 			return this;
 		});
 	}

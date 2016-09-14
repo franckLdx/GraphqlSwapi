@@ -1,6 +1,7 @@
 'use strict';
 
 import JsonDB from '../db/jsonDB';
+import {getSorter} from '../tools/functions';
 
 class CharactersDB extends JsonDB {
 	constructor() {
@@ -9,9 +10,8 @@ class CharactersDB extends JsonDB {
 
 	load() {
 		return super.load().then(() => {
-			this._items = this._items.sort((charcter1,charcter2) => {
-				return charcter1.name < charcter2.name ? -1 : 1;
-			});
+			const sorter = getSorter('name');
+			this._items = this._items.sort(sorter);
 			return this;
 		});
 	}

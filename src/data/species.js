@@ -1,7 +1,7 @@
 'use strict';
 
 import JsonDB from '../db/jsonDB';
-import {stringToArray} from '../db/tools';
+import {stringToArray, getSorter} from '../tools/functions';
 
 class SpeciesDB extends JsonDB {
 	constructor() {
@@ -10,13 +10,15 @@ class SpeciesDB extends JsonDB {
 
 	load() {
 		return super.load().then(()=> {
+			debugger;
+			const sorter = getSorter('name');
 			this._items = this._items.map(specie => {
 				const obj = Object.create(specie);
 				obj.eye_colors = stringToArray(specie.eye_colors);
 				obj.hair_colors = stringToArray(specie.hair_colors);
 				obj.skin_colors = stringToArray(specie.skin_colors);
 				return obj;
-			}).sort((specie1, specie2) => specie1.name < specie2.name ? -1 : 1);
+			}).sort(sorter);
 			return this;
 		});
 	}
