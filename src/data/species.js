@@ -9,13 +9,20 @@ class SpeciesDB extends JsonDB {
 	}
 
 	load() {
-		return super.load(specie => {
-			const obj = Object.create(specie);
-			obj.eye_colors = stringToArray(specie.eye_colors);
-			obj.hair_colors = stringToArray(specie.hair_colors);
-			obj.skin_colors = stringToArray(specie.skin_colors);
-			return obj;
+		return super.load().then(()=> {
+			this._items = this._items.map(specie => {
+				const obj = Object.create(specie);
+				obj.eye_colors = stringToArray(specie.eye_colors);
+				obj.hair_colors = stringToArray(specie.hair_colors);
+				obj.skin_colors = stringToArray(specie.skin_colors);
+				return obj;
+			}).sort((specie1, specie2) => specie1.name < specie2.name ? -1 : 1);
+			return this;
 		});
+	}
+
+	findByName(name) {
+		return this.findString(name, 'name');
 	}
 }
 

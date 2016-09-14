@@ -21,7 +21,7 @@ export const classificationType = new GraphQLEnumType({
 		MAMMAL: {value: 'mammal'},
 		REPTILE: {value: 'reptile'},
 		REPTILIAN: {value: 'reptilian'},
-		SENTINENT: {value: 'sentient'},
+		SENTIENT: {value: 'sentient'},
 		UNKNOWN: {value: 'unknown'},
 	}
 });
@@ -30,7 +30,7 @@ export const designationType = new GraphQLEnumType({
 	name: 'designation',
 	values: {
 		REPTILIAN: {value: 'reptilian'},
-		SENTINENT: {value: 'sentient'},
+		SENTIENT: {value: 'sentient'},
 	}
 });
 
@@ -97,6 +97,23 @@ export const speciesQuery = {
 	description: 'species list',
 	resolve: () => {
 		return speciesDB.findAll();
+	}
+};
+
+export const specieByNameQuery = {
+	type: new GraphQLNonNull(new GraphQLList(speciesType)),
+	description: 'species list with a given name (empty is no name matches)',
+	args: {
+		name : {
+			type: new GraphQLNonNull(GraphQLString),
+			description: 'If name="Ewok", will return all characters with Ewok in the name (search is not case senstive)'
+		},
+	},
+	resolve: (context, {name}) => {
+		if (name.length > 2048) {
+			throw new Error("Invalid name value");
+		}
+		return speciesDB.findByName(name);
 	}
 };
 
