@@ -31,9 +31,8 @@ describe('Planets tests suite', function() {
 	describe('Planet list tests suite', function() {
 		it('List should be in alphabetical order along with valid data', function(done) {
 			doRequest(app, '{planets{name,diameter,rotation_period,orbital_period,gravity,population,climate,terrain,surface_water}}')
-				//.expect(200)
+				.expect(200)
 				.expect((response) => {
-					console.log(response.body.errors);
 					const extractor = getFieldsExtractor('name','diameter','rotation_period','orbital_period','gravity','population','climate','terrain','surface_water');
 					const expectedResult = expectedPlanets.map(extractor);
 					const actualResult = response.body.data.planets;
@@ -44,7 +43,7 @@ describe('Planets tests suite', function() {
 		});
 	});
 	describe('Planets by name test suite', function() {
-		it('Should get a character based on his name', function(done) {
+		it('Should get a planet based on his name', function(done) {
 			doRequest(app, '{planetByName(name:"Alderaan"){name}}')
 				.expect(200)
 				.expect((response) => {
@@ -57,7 +56,7 @@ describe('Planets tests suite', function() {
 				})
 				.end(done);
 		});
-		it('Should get a character based on an extract of his name', function(done) {
+		it('Should get a planet based on an extract of his name', function(done) {
 			doRequest(app, '{planetByName(name:"dERaAn"){name}}')
 				.expect(200)
 				.expect((response) => {

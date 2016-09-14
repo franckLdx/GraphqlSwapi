@@ -37,7 +37,7 @@ export const designationType = new GraphQLEnumType({
 
 export const speciesType = new GraphQLObjectType({
 	name: 'species',
-	description: 'A  type of person or character within the Star Wars Universe.',
+	description: 'A species within the Star Wars Universe.',
 	fields: () => { return {
 		name: {
 			type: GraphQLString,
