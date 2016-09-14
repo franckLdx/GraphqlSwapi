@@ -10,7 +10,7 @@ import {
 } from 'graphql';
 
 import { filmType, findByUrls as findFilms } from './films.js';
-import { speciesType, findByUrls as findSpecies } from './species.js';
+import { specieType, findByUrls as findSpecies } from './species.js';
 
 export const characterType = new GraphQLObjectType({
 	name: 'characters',
@@ -58,7 +58,7 @@ export const characterType = new GraphQLObjectType({
 				resolve: ({films}) => findFilms(films),
 			},
 			species: {
-				type: new GraphQLNonNull(new GraphQLList(speciesType)),
+				type: new GraphQLNonNull(new GraphQLList(specieType)),
 				description: 'Species that this person belonds to.',
 				resolve: ({species}) => findSpecies(species),
 			}

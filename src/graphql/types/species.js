@@ -35,7 +35,7 @@ export const designationType = new GraphQLEnumType({
 });
 
 
-export const speciesType = new GraphQLObjectType({
+export const specieType = new GraphQLObjectType({
 	name: 'species',
 	description: 'A species within the Star Wars Universe.',
 	fields: () => { return {
@@ -93,7 +93,7 @@ export const speciesType = new GraphQLObjectType({
 });
 
 export const speciesQuery = {
-	type: new GraphQLNonNull(new GraphQLList(speciesType)),
+	type: new GraphQLNonNull(new GraphQLList(specieType)),
 	description: 'species list',
 	resolve: () => {
 		return speciesDB.findAll();
@@ -101,7 +101,7 @@ export const speciesQuery = {
 };
 
 export const specieByNameQuery = {
-	type: new GraphQLNonNull(new GraphQLList(speciesType)),
+	type: new GraphQLNonNull(new GraphQLList(specieType)),
 	description: 'species list with a given name (empty is no name matches)',
 	args: {
 		name : {
@@ -118,7 +118,7 @@ export const specieByNameQuery = {
 };
 
 export const specieByClassificationQuery = {
-	type: new GraphQLNonNull(new GraphQLList(speciesType)),
+	type: new GraphQLNonNull(new GraphQLList(specieType)),
 	description: 'species list of that classification (empty list if found no species)',
 	args: {
 		classification : {
@@ -132,7 +132,7 @@ export const specieByClassificationQuery = {
 };
 
 export const specieByDesignationQuery = {
-	type: new GraphQLNonNull(new GraphQLList(speciesType)),
+	type: new GraphQLNonNull(new GraphQLList(specieType)),
 	description: 'species list of that designation (empty list if found no species)',
 	args: {
 		designation: {

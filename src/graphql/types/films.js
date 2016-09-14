@@ -9,7 +9,8 @@ import {
 } from 'graphql';
 
 import { characterType, findByUrls as findCharacters } from './characters.js';
-import { speciesType, findByUrls as findSpecies } from './species.js';
+import { specieType, findByUrls as findSpecies } from './species.js';
+import { starshipType, findByUrls as findStarships } from './starships.js';
 
 import filmsDB from '../../data/films.js';
 
@@ -35,9 +36,14 @@ export const filmType = new GraphQLObjectType({
 			resolve: ({characters}) => findCharacters(characters)
 		},
 		species: {
-			type: new GraphQLNonNull(new GraphQLList(speciesType)),
-			description: 'An array of characters that are in this film',
+			type: new GraphQLNonNull(new GraphQLList(specieType)),
+			description: 'List of characters that are in this film',
 			resolve: ({species}) => findSpecies(species)
+		},
+    	starships: {
+			type: new GraphQLNonNull(new GraphQLList(starshipType)),
+      		description: `List of starships that in this film.`,
+			resolve: ({starships}) => findStarships(starships)
 		},
 		director: {
       		type: GraphQLString,
@@ -50,8 +56,7 @@ export const filmType = new GraphQLObjectType({
     	release_date: {
       		type: GraphQLString,
       		description: `The ISO 8601 date format of film release at original creator country.`
-    	},
-    	//starshipConnection
+    	}
     	//vehicleConnection
     	//characterConnection
     	//planetConnection

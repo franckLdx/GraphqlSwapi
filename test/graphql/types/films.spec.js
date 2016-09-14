@@ -136,5 +136,18 @@ describe('Films tests suite', function() {
 				})
 				.end(done);
 		});
+		it('Starship should be in the response', function(done) {
+			doRequest(app, '{filmById(id:5){id,starships{name}}}')
+				.expect(200)
+				.expect((response) => {
+					const extractor = getFieldsExtractor('id','starships');
+					const expectedResult = extractor(expectedFilms[4]);
+					const actualFilms = response.body.data.filmById;
+					expect(actualFilms.id).to.be.deep.equal(expectedResult.id);
+					expect(actualFilms.starships.length).to.be.deep.equal(expectedResult.starships.length);
+					expect(response.body.errors).to.be.undefined;
+				})
+				.end(done);
+		});
 	});
 });
