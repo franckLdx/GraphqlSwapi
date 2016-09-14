@@ -10,7 +10,6 @@ class SpeciesDB extends JsonDB {
 
 	load() {
 		return super.load().then(()=> {
-			debugger;
 			const sorter = getSorter('name');
 			this._items = this._items.map(specie => {
 				const obj = Object.create(specie);

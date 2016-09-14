@@ -5,6 +5,7 @@ import charactersDB from './data/characters';
 import speciesDB from './data/species';
 import planetsDB from './data/planets';
 import starshipsDB from './data/starships';
+import vehiclesDB from './data/vehicles';
 
 import express from 'express';
 
@@ -16,7 +17,8 @@ export function createApp() {
 		charactersDB.load(),
 		speciesDB.load(),
 		planetsDB.load(),
-		starshipsDB.load()
+		starshipsDB.load(),
+		vehiclesDB.load()
 	]);
 
 	const app = express();

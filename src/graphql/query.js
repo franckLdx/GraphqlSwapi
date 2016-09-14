@@ -6,6 +6,7 @@ import { charactersQuery, characterByNameQuery } from './types/characters';
 import { speciesQuery, specieByNameQuery, specieByClassificationQuery, specieByDesignationQuery } from './types/species';
 import { planetsQuery, planetByNameQuery } from './types/planets';
 import { starshipsQuery, starshipByNameQuery } from './types/starships';
+import { vehiclesQuery, vehicleByNameQuery } from './types/vehicles';
 
 export const query = new GraphQLObjectType({
 	name: 'query',
@@ -22,6 +23,8 @@ export const query = new GraphQLObjectType({
 		planets: planetsQuery,
 		planetByName: planetByNameQuery,
 		starships: starshipsQuery,
-		starshipByName: starshipByNameQuery
+		starshipByName: starshipByNameQuery,
+		vehicles: vehiclesQuery,
+		vehicleByName: vehicleByNameQuery
 	}
 });
