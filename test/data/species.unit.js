@@ -2,6 +2,7 @@
 
 import speciesDB from '../../src/data/species';
 import {expect} from 'chai';
+import {findByName} from './tools';
 
 describe('SpeciesDB test', function() {
 	before(function(done) {
@@ -37,22 +38,13 @@ describe('SpeciesDB test', function() {
 
 	describe('findByName test', function() {
 		it('Should return the matching species', function() {
-			const name = 'Aleena';
-			const result = speciesDB.findByName(name);
-			expect(result.length).to.be.deep.equal(1);
-			expect(result[0].name).to.be.deep.equal(name);
+			findByName(speciesDB, 'Aleena', 1);
 		});
 		it('Should return all matching species', function() {
-			const name = 'aLee';
-			const result = speciesDB.findByName(name);
-			expect(result.length).to.be.deep.equal(2);
-			for (let item of result) {
-				expect(item.name.toLowerCase()).to.contain(name.toLowerCase());
-			}
+			findByName(speciesDB, 'aLee', 2);
 		});
 		it('Should return an empty array: no matching specie', function() {
-			const result = speciesDB.findByName('revgbebcugh');
-			expect(result.length).to.be.deep.equal(0);
+			findByName(speciesDB, 'revgbebcugh', 0);
 		});
 	});
 });

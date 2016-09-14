@@ -2,6 +2,7 @@
 
 import charactersDB from '../../src/data/characters.js';
 import {expect} from 'chai';
+import {findByName} from './tools';
 
 describe('charactersDB test', function() {
 	before(function(done) {
@@ -15,20 +16,13 @@ describe('charactersDB test', function() {
 	});
 	describe('findByName test', function() {
 		it('Should return the matching character', function() {
-			const result = charactersDB.findByName('LUKE');
-			expect(result.length).to.be.deep.equal(1);
-			expect(result[0].name).to.be.deep.equal('Luke Skywalker');
+			findByName(charactersDB, 'LUKE', 1);
 		});
 		it('Should return all matching characters', function() {
-			const result = charactersDB.findByName('Skywalker');
-			expect(result.length).to.be.deep.equal(3);
-			for (let item of result) {
-				expect(item.name).to.contain('Skywalker');
-			}
+			findByName(charactersDB, 'Skywalker', 3);
 		});
 		it('Should return an empty array: no matching characters', function() {
-			const result = charactersDB.findByName('revgbebcugh');
-			expect(result.length).to.be.deep.equal(0);
+			findByName(charactersDB, 'revgbebcugh', 0);
 		});
 	});
 	describe('findOneByUrl test', function() {
