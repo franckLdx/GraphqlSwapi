@@ -93,4 +93,4 @@ export const starshipByNameQuery = {
 	}
 };
 
-export const findByUrls = urls => starshipsDB.findByUrls(urls);
+export const findByUrls = urls => { return starshipsDB.findByUrls(urls);}

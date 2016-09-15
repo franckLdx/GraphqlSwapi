@@ -1,6 +1,6 @@
 'use strict';
 
-import charactersDB from '../../data/characters.js';
+import charactersDB from '../../data/characters';
 
 import {
 	GraphQLObjectType,
@@ -9,8 +9,11 @@ import {
 	GraphQLNonNull
 } from 'graphql';
 
-import { filmType, findByUrls as findFilms } from './films.js';
-import { specieType, findByUrls as findSpecies } from './species.js';
+import { filmType, findByUrls as findFilms } from './films';
+import { specieType, findByUrls as findSpecies } from './species';
+import { planetType, findByUrls as findPlanets } from './planets';
+import { starshipType, findByUrls as findStarships } from './starships';
+import { vehicleType, findByUrls as findVehicles } from './vehicles';
 
 export const characterType = new GraphQLObjectType({
 	name: 'characters',
@@ -49,8 +52,12 @@ export const characterType = new GraphQLObjectType({
 				description: 'The skin color of this person.'
 			},
 			homeworld: {
-				type: GraphQLString,
-				description:'The URL of a planet resource, a planet that this person was born on or inhabits.'
+				type: planetType,
+				description:'A planet that this person was born on or inhabits.',
+				resolve: ({homeworld}) => {
+					const planets = findPlanets([homeworld]);
+					return planets.length ? planets[0]:undefined;
+				}
 			},
 			films: {
 				type: new GraphQLList(filmType),
@@ -61,12 +68,17 @@ export const characterType = new GraphQLObjectType({
 				type: new GraphQLNonNull(new GraphQLList(specieType)),
 				description: 'Species that this person belonds to.',
 				resolve: ({species}) => findSpecies(species),
+			},
+			starships: {
+				type: new GraphQLNonNull(new GraphQLList(starshipType)),
+				description: 'Starships that this person had piloted.',
+				resolve: ({starships}) => findStarships(starships),
+			},
+			vehicles: {
+				type: new GraphQLNonNull(new GraphQLList(vehicleType)),
+				description: 'Vehicles that this person had piloted.',
+				resolve: ({vehicles}) => findVehicles(vehicles),
 			}
-			//starships array -- An array of starship resource URLs that this person has piloted.
-			//vehicles array -- An array of vehicle resource URLs that this person has piloted.
-			//url string -- the hypermedia URL of this resource.
-			//created string -- the ISO 8601 date format of the time that this resource was created.
-			//edited string -- the ISO 8601 date format of the time that this resource was edited.
 		};
 	}
 });

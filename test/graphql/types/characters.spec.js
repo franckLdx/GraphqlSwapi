@@ -13,6 +13,8 @@ const expectedCharacters =
 	  return character1.name < character2.name ? -1 : 1;
   });
 
+import util from 'util';
+
 let app;
 describe('Characters tests suite', function() {
 	before(function(done) {
@@ -85,23 +87,61 @@ describe('Characters tests suite', function() {
 			doRequest(app, '{characterByName(name:"Ackbar"){name,films{title}}}')
 				.expect(200)
 				.expect((response) => {
+					expect(response.body.data.characterByName.length).to.be.deep.equals(1);
 					const extractor = getFieldsExtractor('name','films');
 					const expectedResult = extractor(expectedCharacters[0]);
-					const actualCharacters = response.body.data.characterByName;
-					expect(actualCharacters[0].films.length).to.be.deep.equal(expectedResult.films.length);
+					const actualCharacters = response.body.data.characterByName[0];
+					expect(actualCharacters.films.length).to.be.deep.equal(expectedResult.films.length);
 					expect(response.body.errors).to.be.undefined;
 				})
 				.end(done);
 		});
-		it.skip('Species should be in the response', function(done) {
-			doRequest(app, 'characterByName(name:"Ackbar"){name,species{name}}')
+		it('Homeworld should be in the response', function(done) {
+			doRequest(app, '{characterByName(name:"Ackbar"){name,homeworld{name}}}')
 				.expect(200)
 				.expect((response) => {
-					const extractor = getFieldsExtractor('id','title','species');
-					const expectedResult = extractor(expectedCharacters[4]);
-					const actualCharacters = response.body.data.filmById;
-					expect(actualCharacters.id).to.be.deep.equal(expectedResult.id);
-					expect(actualCharacters.title).to.be.deep.equal(expectedResult.title);	expect(actualCharacters.species.length).to.be.deep.equal(expectedResult.species.length);
+					expect(response.body.data.characterByName.length).to.be.deep.equals(1);
+					const actualCharacters = response.body.data.characterByName[0];
+					expect(actualCharacters.homeworld).not.to.be.undefined;
+					expect(response.body.errors).to.be.undefined;
+				})
+				.end(done);
+		});
+		it('Species should be in the response', function(done) {
+			doRequest(app, '{characterByName(name:"Ackbar"){name,species{name}}}')
+				.expect(200)
+				.expect((response) => {
+					expect(response.body.data.characterByName.length).to.be.deep.equals(1);
+					const extractor = getFieldsExtractor('name','species');
+					const expectedResult = extractor(expectedCharacters[0]);
+					const actualCharacters = response.body.data.characterByName[0];
+					expect(actualCharacters.species.length).to.be.deep.equal(expectedResult.species.length);
+					expect(response.body.errors).to.be.undefined;
+				})
+				.end(done);
+		});
+		it('Starships should be in the response', function(done) {
+			doRequest(app, '{characterByName(name:"Ackbar"){name,starships{name}}}')
+				.expect(200)
+				.expect((response) => {
+					expect(response.body.data.characterByName.length).to.be.deep.equals(1);
+					const extractor = getFieldsExtractor('name','starships');
+					const expectedResult = extractor(expectedCharacters[0]);
+					const actualCharacters = response.body.data.characterByName[0];
+					expect(actualCharacters.starships.length).to.be.deep.equal(expectedResult.starships.length);
+					expect(response.body.errors).to.be.undefined;
+				})
+				.end(done);
+		});
+		it('Vehicles should be in the response', function(done) {
+			doRequest(app, '{characterByName(name:"Ackbar"){name,vehicles{name}}}')
+				.expect(200)
+				.expect((response) => {
+					expect(response.body.data.characterByName.length).to.be.deep.equals(1);
+					const extractor = getFieldsExtractor('name','vehicles');
+					const expectedResult = extractor(expectedCharacters[0]);
+					const actualCharacters = response.body.data.characterByName[0];
+					expect(actualCharacters.vehicles.length).to.be.deep.equal(expectedResult.vehicles.length);
 					expect(response.body.errors).to.be.undefined;
 				})
 				.end(done);
