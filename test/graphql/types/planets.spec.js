@@ -88,4 +88,32 @@ describe('Planets tests suite', function() {
 				.end(done);
 		});
 	});
+	describe('Related types should be in the response', function() {
+		it('Films should be in the response', function(done) {
+			doRequest(app, '{planetByName(name:"Alderaan"){name,films{title}}}')
+				.expect(200)
+				.expect((response) => {
+					expect(response.body.data.planetByName.length).to.be.deep.equals(1);
+					const extractor = getFieldsExtractor('name','films');
+					const expectedResult = extractor(expectedPlanets[0]);
+					const actualResults = response.body.data.planetByName[0];
+					expect(actualResults.films.length).to.be.deep.equal(expectedResult.films.length);
+					expect(response.body.errors).to.be.undefined;
+				})
+				.end(done);
+		});
+		it('Residents should be in the response', function(done) {
+			doRequest(app, '{planetByName(name:"Alderaan"){name,residents{name}}}')
+				.expect(200)
+				.expect((response) => {
+					expect(response.body.data.planetByName.length).to.be.deep.equals(1);
+					const extractor = getFieldsExtractor('name','residents');
+					const expectedResult = extractor(expectedPlanets[0]);
+					const actualResults = response.body.data.planetByName[0];
+					expect(actualResults.residents.length).to.be.deep.equal(expectedResult.residents.length);
+					expect(response.body.errors).to.be.undefined;
+				})
+				.end(done);
+		});
+	});
 });

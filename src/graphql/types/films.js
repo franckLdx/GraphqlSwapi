@@ -8,11 +8,11 @@ import {
 	GraphQLNonNull
 } from 'graphql';
 
-import { characterType, findByUrls as findCharacters } from './characters.js';
-import { specieType, findByUrls as findSpecies } from './species.js';
-import { starshipType, findByUrls as findStarships } from './starships.js';
-import { vehicleType, findByUrls as findVehicles } from './vehicles.js';
-import { planetType, findByUrls as findPlanets } from './planets.js';
+import { characterType, findByUrls as findCharacters } from './characters';
+import { specieType, findByUrls as findSpecies } from './species';
+import { starshipType, findByUrls as findStarships } from './starships';
+import { vehicleType, findByUrls as findVehicles } from './vehicles';
+import { planetType, findByUrls as findPlanets } from './planets';
 
 
 import filmsDB from '../../data/films.js';
