@@ -12,12 +12,16 @@ class SpeciesDB extends JsonDB {
 		return super.load().then(()=> {
 			const sorter = getSorter('name');
 			this._items = this._items.map(specie => {
-				const obj = Object.create(specie);
-				obj.eye_colors = stringToArray(specie.eye_colors);
-				obj.hair_colors = stringToArray(specie.hair_colors);
-				obj.skin_colors = stringToArray(specie.skin_colors);
+				const obj = Object.assign({}, specie);
+				for (let item of ['eye_colors', 'hair_colors', 'skin_colors']) {
+					obj[item] = stringToArray(specie[item]);
+				}
+				if (specie.classification==='mammals') {
+					obj.classification='mammal';
+				}
 				return obj;
 			}).sort(sorter);
+			debugger;
 			return this;
 		});
 	}

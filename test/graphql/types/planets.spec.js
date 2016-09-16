@@ -31,13 +31,10 @@ describe('Planets tests suite', function() {
 	describe('Planet list tests suite', function() {
 		it('List should be in alphabetical order along with valid data', function(done) {
 			doRequest(app, '{planets{name,diameter,rotation_period,orbital_period,gravity,population,climate,terrain,surface_water}}')
-				.expect(200)
-				.expect((response) => {
+				.checkOKResponse(({planets: actualResult}) => {
 					const extractor = getFieldsExtractor('name','diameter','rotation_period','orbital_period','gravity','population','climate','terrain','surface_water');
 					const expectedResult = expectedPlanets.map(extractor);
-					const actualResult = response.body.data.planets;
 					expect(actualResult).to.be.deep.equal(expectedResult);
-					expect(response.body.errors).to.be.undefined;
 				})
 				.end(done);
 		});
@@ -45,36 +42,28 @@ describe('Planets tests suite', function() {
 	describe('Planets by name test suite', function() {
 		it('Should get a planet based on his name', function(done) {
 			doRequest(app, '{planetByName(name:"Alderaan"){name}}')
-				.expect(200)
-				.expect((response) => {
-					expect(response.body.data.planetByName.length).to.be.deep.equal(1);
+				.checkOKResponse(({planetByName: actualResult}) => {
+					expect(actualResult.length).to.be.deep.equal(1);
 					const extractor = getFieldsExtractor('name');
 					const expectedResult = extractor(expectedPlanets[0]);
-					const actualResult = response.body.data.planetByName[0];
-					expect(actualResult).to.be.deep.equal(expectedResult);
-					expect(response.body.errors).to.be.undefined;
+					expect(actualResult[0]).to.be.deep.equal(expectedResult);
 				})
 				.end(done);
 		});
 		it('Should get a planet based on an extract of his name', function(done) {
 			doRequest(app, '{planetByName(name:"dERaAn"){name}}')
-				.expect(200)
-				.expect((response) => {
-					expect(response.body.data.planetByName.length).to.be.deep.equal(1);
+				.checkOKResponse(({planetByName: actualResult}) => {
+					expect(actualResult.length).to.be.deep.equal(1);
 					const extractor = getFieldsExtractor('name');
 					const expectedResult = extractor(expectedPlanets[0]);
-					const actualResult = response.body.data.planetByName[0];
-					expect(actualResult).to.be.deep.equal(expectedResult);
-					expect(response.body.errors).to.be.undefined;
+					expect(actualResult[0]).to.be.deep.equal(expectedResult);
 				})
 				.end(done);
 		});
 		it('Should get an empty list when ask for a dummy name', function(done) {
 			doRequest(app, '{planetByName(name:"donald dream"){name}}')
-				.expect(200)
-				.expect((response) => {
-					expect(response.body.data.planetByName.length).to.be.deep.equal(0);
-					expect(response.body.errors).to.be.undefined;
+				.checkOKResponse(({planetByName: actualResult}) => {
+					expect(actualResult.length).to.be.deep.equal(0);
 				})
 				.end(done);
 		});
@@ -91,27 +80,21 @@ describe('Planets tests suite', function() {
 	describe('Related types should be in the response', function() {
 		it('Films should be in the response', function(done) {
 			doRequest(app, '{planetByName(name:"Alderaan"){name,films{title}}}')
-				.expect(200)
-				.expect((response) => {
-					expect(response.body.data.planetByName.length).to.be.deep.equals(1);
+				.checkOKResponse(({planetByName: actualResult}) => {
+					expect(actualResult.length).to.be.deep.equals(1);
 					const extractor = getFieldsExtractor('name','films');
 					const expectedResult = extractor(expectedPlanets[0]);
-					const actualResults = response.body.data.planetByName[0];
-					expect(actualResults.films.length).to.be.deep.equal(expectedResult.films.length);
-					expect(response.body.errors).to.be.undefined;
+					expect(actualResult[0].films.length).to.be.deep.equal(expectedResult.films.length);
 				})
 				.end(done);
 		});
 		it('Residents should be in the response', function(done) {
 			doRequest(app, '{planetByName(name:"Alderaan"){name,residents{name}}}')
-				.expect(200)
-				.expect((response) => {
-					expect(response.body.data.planetByName.length).to.be.deep.equals(1);
+				.checkOKResponse(({planetByName: actualResult}) => {
+					expect(actualResult.length).to.be.deep.equals(1);
 					const extractor = getFieldsExtractor('name','residents');
 					const expectedResult = extractor(expectedPlanets[0]);
-					const actualResults = response.body.data.planetByName[0];
-					expect(actualResults.residents.length).to.be.deep.equal(expectedResult.residents.length);
-					expect(response.body.errors).to.be.undefined;
+					expect(actualResult[0].residents.length).to.be.deep.equal(expectedResult.residents.length);
 				})
 				.end(done);
 		});

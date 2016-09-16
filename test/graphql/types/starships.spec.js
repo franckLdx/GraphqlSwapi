@@ -22,13 +22,10 @@ describe('Starships tests suite', function() {
 	describe('Starship list tests suite', function() {
 		it('List should be in alphabetical order along with valid data', function(done) {
 			doRequest(app, '{starships{name,model,starship_class,manufacturer,cost_in_credits,length,crew,passengers,max_atmosphering_speed,hyperdrive_rating,MGLT,cargo_capacity,consumables}}')
-				.expect(200)
-				.expect((response) => {
+				.checkOKResponse(({starships: actualResult}) => {
 					const extractor = getFieldsExtractor('name','model','starship_class','manufacturer','cost_in_credits','length','crew','passengers','max_atmosphering_speed','hyperdrive_rating','MGLT','cargo_capacity','consumables');
 					const expectedResult = expectedStarships.map(extractor);
-					const actualResult = response.body.data.starships;
 					expect(actualResult).to.be.deep.equal(expectedResult);
-					expect(response.body.errors).to.be.undefined;
 				})
 				.end(done);
 		});
@@ -36,36 +33,28 @@ describe('Starships tests suite', function() {
 	describe('Starships by name test suite', function() {
 		it('Should get a starship based on his name', function(done) {
 			doRequest(app, '{starshipByName(name:"A-wing"){name}}')
-				.expect(200)
-				.expect((response) => {
-					expect(response.body.data.starshipByName.length).to.be.deep.equal(1);
+				.checkOKResponse(({starshipByName: actualResult}) => {
+					expect(actualResult.length).to.be.deep.equal(1);
 					const extractor = getFieldsExtractor('name');
 					const expectedResult = extractor(expectedStarships[0]);
-					const actualResult = response.body.data.starshipByName[0];
-					expect(actualResult).to.be.deep.equal(expectedResult);
-					expect(response.body.errors).to.be.undefined;
+					expect(actualResult[0]).to.be.deep.equal(expectedResult);
 				})
 				.end(done);
 		});
 		it('Should get a starship based on an extract of his name', function(done) {
 			doRequest(app, '{starshipByName(name:"a-WiN"){name}}')
-				.expect(200)
-				.expect((response) => {
-					expect(response.body.data.starshipByName.length).to.be.deep.equal(1);
+				.checkOKResponse(({starshipByName: actualResult}) => {
+					expect(actualResult.length).to.be.deep.equal(1);
 					const extractor = getFieldsExtractor('name');
 					const expectedResult = extractor(expectedStarships[0]);
-					const actualResult = response.body.data.starshipByName[0];
-					expect(actualResult).to.be.deep.equal(expectedResult);
-					expect(response.body.errors).to.be.undefined;
+					expect(actualResult[0]).to.be.deep.equal(expectedResult);
 				})
 				.end(done);
 		});
 		it('Should get an empty list when ask for a dummy name', function(done) {
 			doRequest(app, '{starshipByName(name:"donald ship"){name}}')
-				.expect(200)
-				.expect((response) => {
-					expect(response.body.data.starshipByName.length).to.be.deep.equal(0);
-					expect(response.body.errors).to.be.undefined;
+				.checkOKResponse(({starshipByName: actualResult}) => {
+					expect(actualResult.length).to.be.deep.equal(0);
 				})
 				.end(done);
 		});

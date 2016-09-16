@@ -31,12 +31,10 @@ describe('Films tests suite', function() {
 	describe('Films list tests suite', function() {
 		it('Films list should be in episode order (starting from The Phantom Menace) along with valid data', function(done) {
 			doRequest(app, '{films{id,title,opening_crawl,director,producers,release_date}}')
-				.expect(200)
-				.expect(response => {
+				.checkOKResponse(({films: actualResult}) => {
 					const extractor = getFieldsExtractor('id','title','opening_crawl', 'director','producers','release_date');
 					const expectedResult = expectedFilms.map(extractor);
-					const actualFilms = response.body.data.films;
-					expect(actualFilms).to.be.deep.equal(expectedResult);
+					expect(actualResult).to.be.deep.equal(expectedResult);
 				})
 				.end(done);
 		});
@@ -44,21 +42,17 @@ describe('Films tests suite', function() {
 	describe('Films by episode id tests suite', function() {
 		it('Should get the wanted episode', function(done) {
 			doRequest(app, '{filmById(id:5){id,title,opening_crawl,director,producers,release_date}}')
-				.expect(200)
-				.expect((response) => {
+				.checkOKResponse(({filmById: actualResult}) => {
 					const extractor = getFieldsExtractor('id','title','opening_crawl', 'director','producers','release_date');
 					const expectedResult = extractor(expectedFilms[4]);
-					const actualFilms = response.body.data.filmById;
-					expect(actualFilms).to.be.deep.equal(expectedResult);
-					expect(response.body.errors).to.be.undefined;
+					expect(actualResult).to.be.deep.equal(expectedResult);
 				})
 				.end(done);
 		});
 		it('Use a non existing episode id, should get a null response', function(done) {
 			doRequest(app, '{filmById(id:10000){id,title,opening_crawl,director,producers,release_date}}')
-				.expect(200)
-				.expect((response) => {
-					expect(response.body.data.filmById).to.be.null;
+				.checkOKResponse(({filmById: actualResult}) => {
+					expect(actualResult).to.be.null;
 				})
 				.end(done);
 		});
@@ -66,36 +60,28 @@ describe('Films tests suite', function() {
 	describe('Films by title test suite', function() {
 		it('Should get a film based on his title', function(done) {
 			doRequest(app, '{filmsByTitle(title:"the phantom menace"){id,title,opening_crawl, director,producers,release_date}}')
-				.expect(200)
-				.expect((response) => {
-					expect(response.body.data.filmsByTitle.length).to.be.deep.equal(1);
+				.checkOKResponse(({filmsByTitle: actualResult}) => {
+					expect(actualResult.length).to.be.deep.equal(1);
 					const extractor = getFieldsExtractor('id','title','opening_crawl', 'director','producers','release_date');
 					const expectedResult = extractor(expectedFilms[0]);
-					const actualFilms = response.body.data.filmsByTitle[0];
-					expect(actualFilms).to.be.deep.equal(expectedResult);
-					expect(response.body.errors).to.be.undefined;
+					expect(actualResult[0]).to.be.deep.equal(expectedResult);
 				})
 				.end(done);
 		});
 		it('Should get a film based on an extract of his title', function(done) {
 			doRequest(app,'{filmsByTitle(title:"phantom menace"){id,title,opening_crawl, director,producers,release_date}}')
-				.expect(200)
-				.expect((response) => {
-					expect(response.body.data.filmsByTitle.length).to.be.deep.equal(1);
+				.checkOKResponse(({filmsByTitle: actualResult}) => {
+					expect(actualResult.length).to.be.deep.equal(1);
 					const extractor = getFieldsExtractor('id','title','opening_crawl', 'director','producers','release_date');
 					const expectedResult = extractor(expectedFilms[0]);
-					const actualFilms = response.body.data.filmsByTitle[0];
-					expect(actualFilms).to.be.deep.equal(expectedResult);
-					expect(response.body.errors).to.be.undefined;
+					expect(actualResult[0]).to.be.deep.equal(expectedResult);
 				})
 				.end(done);
 		});
 		it('Should get an empty list when ask for a dummy title', function(done) {
 			doRequest(app, '{filmsByTitle(title:"donald vador"){id,title,opening_crawl, director,producers,release_date}}')
-				.expect(200)
-				.expect((response) => {
-					expect(response.body.data.filmsByTitle.length).to.be.deep.equal(0);
-					expect(response.body.errors).to.be.undefined;
+				.checkOKResponse(({filmsByTitle: actualResult}) => {
+					expect(actualResult.length).to.be.deep.equal(0);
 				})
 				.end(done);
 		});
@@ -125,53 +111,41 @@ describe('Films tests suite', function() {
 		});
 		it('Species should be in the response', function(done) {
 			doRequest(app, '{filmById(id:5){id,title,species{name}}}')
-				.expect(200)
-				.expect((response) => {
+				.checkOKResponse(({filmById: actualResult}) => {
 					const extractor = getFieldsExtractor('id','title','species');
 					const expectedResult = extractor(expectedFilms[4]);
-					const actualFilms = response.body.data.filmById;
-					expect(actualFilms.id).to.be.deep.equal(expectedResult.id);
-					expect(actualFilms.title).to.be.deep.equal(expectedResult.title);	expect(actualFilms.species.length).to.be.deep.equal(expectedResult.species.length);
-					expect(response.body.errors).to.be.undefined;
+					expect(actualResult.id).to.be.deep.equal(expectedResult.id);
+					expect(actualResult.title).to.be.deep.equal(expectedResult.title);	expect(actualResult.species.length).to.be.deep.equal(expectedResult.species.length);
 				})
 				.end(done);
 		});
 		it('Starships should be in the response', function(done) {
 			doRequest(app, '{filmById(id:5){id,starships{name}}}')
-				.expect(200)
-				.expect((response) => {
+				.checkOKResponse(({filmById: actualResult}) => {
 					const extractor = getFieldsExtractor('id','starships');
 					const expectedResult = extractor(expectedFilms[4]);
-					const actualFilms = response.body.data.filmById;
-					expect(actualFilms.id).to.be.deep.equal(expectedResult.id);
-					expect(actualFilms.starships.length).to.be.deep.equal(expectedResult.starships.length);
-					expect(response.body.errors).to.be.undefined;
+					expect(actualResult.id).to.be.deep.equal(expectedResult.id);
+					expect(actualResult.starships.length).to.be.deep.equal(expectedResult.starships.length);
 				})
 				.end(done);
 		});
 		it('Vehicles should be in the response', function(done) {
 			doRequest(app, '{filmById(id:5){id,vehicles{name}}}')
-				.expect(200)
-				.expect((response) => {
+				.checkOKResponse(({filmById: actualResult}) => {
 					const extractor = getFieldsExtractor('id','vehicles');
 					const expectedResult = extractor(expectedFilms[4]);
-					const actualFilms = response.body.data.filmById;
-					expect(actualFilms.id).to.be.deep.equal(expectedResult.id);
-					expect(actualFilms.vehicles.length).to.be.deep.equal(expectedResult.vehicles.length);
-					expect(response.body.errors).to.be.undefined;
+					expect(actualResult.id).to.be.deep.equal(expectedResult.id);
+					expect(actualResult.vehicles.length).to.be.deep.equal(expectedResult.vehicles.length);
 				})
 				.end(done);
 		});
 		it('Planets should be in the response', function(done) {
 			doRequest(app, '{filmById(id:5){id,planets{name}}}')
-				.expect(200)
-				.expect((response) => {
+				.checkOKResponse(({filmById: actualResult}) => {
 					const extractor = getFieldsExtractor('id','planets');
 					const expectedResult = extractor(expectedFilms[4]);
-					const actualFilms = response.body.data.filmById;
-					expect(actualFilms.id).to.be.deep.equal(expectedResult.id);
-					expect(actualFilms.planets.length).to.be.deep.equal(expectedResult.planets.length);
-					expect(response.body.errors).to.be.undefined;
+					expect(actualResult.id).to.be.deep.equal(expectedResult.id);
+					expect(actualResult.planets.length).to.be.deep.equal(expectedResult.planets.length);
 				})
 				.end(done);
 		});
