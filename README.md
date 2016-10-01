@@ -50,6 +50,7 @@ Information about a film.
 
 	![Example](./doc/filmById.png)
 * __filmsByTitle__: Returns films which has a given words or expression in is title (empty if no film matchs, search is not case sensitive).
+
 		Param: title - a string
 
 	![Example](./doc/filmsByTitle.png)
