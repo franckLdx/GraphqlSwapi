@@ -75,6 +75,7 @@ export const specieType = new GraphQLObjectType({
 			type: GraphQLString,
 			description: 'The language commonly spoken by this species.'
 		},/*
+		TO DO: to implement and complete readme
 		homeworld: {
 			type: GraphQLString,
 			description: 'The URL of a planet resource, a planet that this species originates from.'
@@ -102,7 +103,7 @@ export const speciesQuery = {
 
 export const specieByNameQuery = {
 	type: new GraphQLNonNull(new GraphQLList(specieType)),
-	description: 'species list with a given name (empty is no name matches)',
+	description: 'Species list with a given name (empty is no name matches)',
 	args: {
 		name : {
 			type: new GraphQLNonNull(GraphQLString),

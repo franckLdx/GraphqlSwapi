@@ -21,7 +21,7 @@ npm start is enough. Whenever you want to update your data, do a grunt getSwapiD
 
 Information about a film.
 
-**fields:**
+**Fields:**
 * title: The title of this film
 * id: Episode number
 * opening_crawl	The opening paragraphs at the beginning of this film
@@ -43,7 +43,7 @@ Information about a film.
 
 A character within the Star Wars universe.
 
-**fields:**
+**Fields:**
 * name: The name of this person.
 * birth_year: The birth year of the person, using the in-universe standard of BBY or ABY - Before the Battle of Yavin or After the Battle of Yavin. The Battle of Yavin is a battle that occurs at the end of Star Wars episode IV: A New Hope
 * eye_color: The eye color of this person. Will be "unknown" if not known or "n/a" if the person does not have an eye
@@ -84,3 +84,68 @@ Information about a planet
 
 * planets: Planets list
 * planetByName: List of the planet whith has a name that contains the given name (empty if no match, search is not case sensitive)
+
+## Specie
+
+Species within the Star Wars Universe.
+
+**Fields**
+* name: The name of this species
+* classification: The classification of this species, such as "mammal" or "reptile"
+* designation The designation of this species
+* average_height: The average height of this species in centimeters
+* average_lifespan: The average lifespan of this species in years
+* eye_colors: List of common eye colors for this species, empty if this species does not typically have eyes
+* hair_colors List of common hair colors for this species, empty if this species does not typically have hair (or have no hair at all)
+* skin_colors: List of common skin colors for this species, empty if this species does not typically have skin
+* language: The language commonly spoken by this species
+
+
+**Queries**
+* species: Species list
+* specieByName: Species list with a given name (empty is no name matches)
+* specieByClassification: If name="Ewok", will return all characters with Ewok in the name (search is not case senstive)
+* specieByDesignation: species list of that designation (empty list if found no species)
+
+## Starship
+A starship within the Star Wars Universe
+
+**Fields**
+* name: The name of this starship. The common name, such as "Death Star"
+* model: The model or official name of this starship. Such as "T-65 X-wing" or "DS-1 Orbital Battle Station
+* starship_class: The class of this starship, such as "Starfighter" or "Deep Space Mobile Battlestation."
+* manufacturer:	The manufacturer of this starship. Comma seperated if more than one.
+* cost_in_credits: The cost of this starship new, in galactic credits
+* length: The length of this starship in meters
+* crew The number of personnel needed to run or pilot this starship
+* passengers: The number of non-essential people this starship can transport
+* max_atmosphering_speed:	The maximum speed of this starship in atmosphere. "N/A" if this starship is incapable of atmosphering flight
+* hyperdrive_rating: The class of this starships hyperdrive
+* MGLT:	The Maximum number of Megalights this starship can travel in a standard hour. A "Megalight" is a standard unit of distance and has never been defined before within the Star Wars universe. This figure is only really useful for measuring the difference in speed of starships. We can assume it is similar to AU, the distance between our Sun (Sol) and Earth
+* cargo_capacity: The maximum number of kilograms that this starship can transport
+* consumables: The maximum length of time that this starship can provide consumables for its entire crew without having to resupply
+
+**Queries**
+* starships: Starships list
+* starshipByName: List of the starships whith has a name that contains the given name (empty if no match, search is not case sensitive)
+
+## Vehicle
+
+A vehicle within the Star Wars universe
+
+**Fields**
+* name: The name of this vehicle. The common name, such as "Sand Crawler" or "Speeder bike"
+* model: The model or official name of this vehicle. Such as "All-Terrain Attack Transport
+* vehicle_class: The class of this vehicle, such as "Wheeled" or "Repulsorcraft
+* manufacturer: The manufacturer of this vehicle. Comma-seperated if more than one
+* length: The length of this vehicle in meters
+* cost_in_credits: The cost of this vehicle new, in Galactic Credits
+* crew: The number of personnel needed to run or pilot this vehicle
+* passengers: The number of non-essential people this vehicle can transport
+* max_atmosphering_speed: The maximum speed of this vehicle in atmosphere
+* cargo_capacity:	The maximum number of kilograms that this vehicle can transport
+* consumables: The maximum number of kilograms that this vehicle can transport
+
+**Queries**
+* vehicles: Vehicles list,
+* vehicleByName: Vehicles, searched by a name (empty is no vehicles match, search is not case sensitive)

@@ -25,6 +25,7 @@ export const starshipType = new GraphQLObjectType({
 			type: GraphQLString,
 			description:'The class of this starship, such as "Starfighter" or "Deep Space Mobile Battlestation."'
 		},
+		//TO DO: create a list
 		manufacturer: {
 			type: GraphQLString,
 			description:'The manufacturer of this starship. Comma seperated if more than one.'
@@ -70,7 +71,7 @@ export const starshipType = new GraphQLObjectType({
 
 export const starshipsQuery = {
 	type: new GraphQLNonNull(new GraphQLList(starshipType)),
-	description: 'starships list',
+	description: 'Starships list',
 	resolve: () => {
 		return starshipsDB.findAll();
 	}
