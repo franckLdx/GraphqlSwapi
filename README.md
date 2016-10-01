@@ -36,9 +36,9 @@ Information about a film.
 
 **Available queries:**
 * films: Full films list [Example](./doc/films.png)
-* filmById: Return the film with the given id or null it there's no film for the episode.
+* filmById: Return the film with the given id or null it there's no film for the episode [Example](./doc/filmById.png)
 Param name: id, an integer
-* filmsByTitle: Returns films which has a given words or expression in is title (empty if no film matchs, search is not case sensitive). Param name: title, a string
+* filmsByTitle: Returns films which has a given words or expression in is title (empty if no film matchs, search is not case sensitive). Param name: title, a string [Example](./doc/filmsByTitle.png)
 
 ## Character
 
