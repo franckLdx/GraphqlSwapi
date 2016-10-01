@@ -17,6 +17,9 @@ npm start is enough. Whenever you want to update your data, do a grunt getSwapiD
 
 
 # API
+To query a GraphQL API, one can use either get or post. Even if it's less 'HTTP way', I prefer to use post
+in my examples because queries content are more readable. Do to so we must set our content type to ['application/graphql'](./doc/content-type.png)
+
 ## Film
 
 Information about a film.
