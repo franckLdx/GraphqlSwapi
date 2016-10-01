@@ -18,7 +18,7 @@ npm start is enough. Whenever you want to update your data, do a grunt getSwapiD
 
 # API
 To query a GraphQL API, one can use either get or post. Even if it's less 'HTTP way', I prefer to use post
-in my examples because queries content are more readable. Do to so we must set our content type to ['application/graphql'](./doc/content-type.png)
+in my examples because queries content are more readable. Do to so we must set our content type to 'application/graphql': !['application/graphql image'](./doc/content-type.png)
 
 ## Film
 
@@ -38,10 +38,21 @@ Information about a film.
 * release_date: The ISO 8601 date format of film release at original creator country
 
 **Available queries:**
-* films: Full films list [Example1](./doc/films1.png), [Example2, films with characters name](./doc/films2.png)
-* filmById: Return the film with the given id or null it there's no film for the episode
-Param name: id, an integer [Example](./doc/filmById.png)
-* filmsByTitle: Returns films which has a given words or expression in is title (empty if no film matchs, search is not case sensitive). Param name: title, a string [Example](./doc/filmsByTitle.png)
+* __films__: Full films list
+
+  * A simple films list: ![Example1](./doc/films1.png)
+
+  * Films with characters name: ![Example2, films with characters name](./doc/films2.png)
+
+* __filmById__: Return the film with the given id or null it there's no film for the episode
+
+		Param: id - integer
+
+	![Example](./doc/filmById.png)
+* __filmsByTitle__: Returns films which has a given words or expression in is title (empty if no film matchs, search is not case sensitive).
+		Param: title - a string
+
+	![Example](./doc/filmsByTitle.png)
 
 ## Character
 
