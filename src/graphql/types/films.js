@@ -80,7 +80,7 @@ export const filmsQuery = {
 
 export const filmByIdQuery = {
 	type: filmType,
-	description: 'Return the film with the given id or null it there\' no film for the episode',
+	description: 'Return the film with the given id or null it there\'s no film for the episode',
 	args: {
 		id : {type: new GraphQLNonNull(GraphQLInt)},
 	},
