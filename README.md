@@ -35,9 +35,9 @@ Information about a film.
 * release_date: The ISO 8601 date format of film release at original creator country
 
 **Available queries:**
-* films: Full films list [Example](./doc/films.png)
-* filmById: Return the film with the given id or null it there's no film for the episode [Example](./doc/filmById.png)
-Param name: id, an integer
+* films: Full films list [Example1](./doc/films1.png), [Example2, films with characters name](./doc/films2.png)
+* filmById: Return the film with the given id or null it there's no film for the episode
+Param name: id, an integer [Example](./doc/filmById.png)
 * filmsByTitle: Returns films which has a given words or expression in is title (empty if no film matchs, search is not case sensitive). Param name: title, a string [Example](./doc/filmsByTitle.png)
 
 ## Character
