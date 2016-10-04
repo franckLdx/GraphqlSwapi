@@ -77,7 +77,7 @@ export const starshipsQuery = {
 	}
 };
 
-export const starshipByNameQuery = {
+export const starshipsByNameQuery = {
 	type: new GraphQLNonNull(new GraphQLList(starshipType)),
 	description: 'List of the starships whith has a name that contains the given name (empty if no match, search is not case sensitive)',
 	args: {

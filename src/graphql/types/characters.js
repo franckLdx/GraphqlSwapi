@@ -89,7 +89,7 @@ export const charactersQuery = {
 	resolve: () => charactersDB.findAll()
 };
 
-export const characterByNameQuery = {
+export const charactersByNameQuery = {
 	type: new GraphQLNonNull(new GraphQLList(characterType)),
 	description: 'Characters, searched by a name (empty is no characters match)',
 	args: {

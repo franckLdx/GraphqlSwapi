@@ -73,7 +73,7 @@ export const planetsQuery = {
 	resolve: () => planetsDB.findAll()
 };
 
-export const planetByNameQuery = {
+export const planetsByNameQuery = {
 	type: new GraphQLNonNull(new GraphQLList(planetType)),
 	description: 'List of the planet whith has a name that contains the given name (empty if no match, search is not case sensitive)',
 	args: {

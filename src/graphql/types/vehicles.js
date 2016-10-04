@@ -68,7 +68,7 @@ export const vehiclesQuery = {
 	resolve: () => vehiclesDB.findAll()
 };
 
-export const vehicleByNameQuery = {
+export const vehiclesByNameQuery = {
 	type: new GraphQLNonNull(new GraphQLList(vehicleType)),
 	description: 'Vehicles, searched by a name (empty is no vehicles match)',
 	args: {

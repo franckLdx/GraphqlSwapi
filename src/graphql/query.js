@@ -2,11 +2,11 @@
 
 import { GraphQLObjectType } from 'graphql';
 import { filmsQuery, filmByIdQuery, filmsByTitleQuery } from './types/films';
-import { charactersQuery, characterByNameQuery } from './types/characters';
-import { speciesQuery, specieByNameQuery, specieByClassificationQuery, specieByDesignationQuery } from './types/species';
-import { planetsQuery, planetByNameQuery } from './types/planets';
-import { starshipsQuery, starshipByNameQuery } from './types/starships';
-import { vehiclesQuery, vehicleByNameQuery } from './types/vehicles';
+import { charactersQuery, charactersByNameQuery } from './types/characters';
+import { speciesQuery, speciesByNameQuery, speciesByClassificationQuery, speciesByDesignationQuery } from './types/species';
+import { planetsQuery, planetsByNameQuery } from './types/planets';
+import { starshipsQuery, starshipsByNameQuery } from './types/starships';
+import { vehiclesQuery, vehiclesByNameQuery } from './types/vehicles';
 
 export const query = new GraphQLObjectType({
 	name: 'query',
@@ -15,16 +15,16 @@ export const query = new GraphQLObjectType({
 		filmById: filmByIdQuery,
 		filmsByTitle: filmsByTitleQuery,
 		characters: charactersQuery,
-		characterByName: characterByNameQuery,
+		charactersByName: charactersByNameQuery,
 		species: speciesQuery,
-		specieByName: specieByNameQuery,
-		specieByClassification: specieByClassificationQuery,
-		specieByDesignation: specieByDesignationQuery,
+		speciesByName: speciesByNameQuery,
+		speciesByClassification: speciesByClassificationQuery,
+		speciesByDesignation: speciesByDesignationQuery,
 		planets: planetsQuery,
-		planetByName: planetByNameQuery,
+		planetsByName: planetsByNameQuery,
 		starships: starshipsQuery,
-		starshipByName: starshipByNameQuery,
+		starshipsByName: starshipsByNameQuery,
 		vehicles: vehiclesQuery,
-		vehicleByName: vehicleByNameQuery
+		vehiclesByName: vehiclesByNameQuery
 	}
 });

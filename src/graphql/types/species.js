@@ -101,7 +101,7 @@ export const speciesQuery = {
 	}
 };
 
-export const specieByNameQuery = {
+export const speciesByNameQuery = {
 	type: new GraphQLNonNull(new GraphQLList(specieType)),
 	description: 'Species list with a given name (empty is no name matches)',
 	args: {
@@ -118,7 +118,7 @@ export const specieByNameQuery = {
 	}
 };
 
-export const specieByClassificationQuery = {
+export const speciesByClassificationQuery = {
 	type: new GraphQLNonNull(new GraphQLList(specieType)),
 	description: 'species list of that classification (empty list if found no species)',
 	args: {
@@ -132,7 +132,7 @@ export const specieByClassificationQuery = {
 	}
 };
 
-export const specieByDesignationQuery = {
+export const speciesByDesignationQuery = {
 	type: new GraphQLNonNull(new GraphQLList(specieType)),
 	description: 'species list of that designation (empty list if found no species)',
 	args: {

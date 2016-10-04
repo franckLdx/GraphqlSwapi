@@ -18,7 +18,9 @@ npm start is enough. Whenever you want to update your data, do a grunt getSwapiD
 
 # API
 To query a GraphQL API, one can use either get or post. Even if it's less 'HTTP way', I prefer to use post
-in my examples because queries content are more readable. Do to so we must set our content type to 'application/graphql': !['application/graphql image'](./doc/content-type.png)
+in my examples because queries content are more readable. Do to so we must set our content type to 'application/graphql':
+
+ !['application/graphql image'](./doc/content-type.png)
 
 ## Film
 
@@ -40,15 +42,20 @@ Information about a film.
 **Available queries:**
 * __films__: Full films list
 
-  * A simple films list: ![Example1](./doc/films1.png)
+  * A simple films list:
 
-  * Films with characters name: ![Example2, films with characters name](./doc/films2.png)
+	![Example1](./doc/films1.png)
+
+  * Films with characters name:
+
+	![Example2, films with characters name](./doc/films2.png)
 
 * __filmById__: Return the film with the given id or null it there's no film for the episode
 
 		Param: id - integer
 
 	![Example](./doc/filmById.png)
+
 * __filmsByTitle__: Returns films which has a given words or expression in is title (empty if no film matchs, search is not case sensitive).
 
 		Param: title - a string
@@ -76,8 +83,16 @@ A character within the Star Wars universe.
 
 **Queries**
 
-* characters: Characters list,
-* characterByName: Characters, searched by a name (empty is no characters match, search is not case sensitive),
+* characters: Characters list
+
+	![Example1](./doc/characters.png)
+
+* charactersByName: Characters, searched by a name (empty is no characters match, search is not case sensitive)
+
+		Param: name - a string
+
+	![Example2](./doc/charactersByName.png)
+
 
 ## Planet:
 
@@ -99,7 +114,14 @@ Information about a planet
 **Queries**
 
 * planets: Planets list
-* planetByName: List of the planet whith has a name that contains the given name (empty if no match, search is not case sensitive)
+
+	![Example1](./doc/planets.png)
+
+* planetsByName: List of the planet which has a name that contains the given name (empty if no match, search is not case sensitive)
+
+		Param: name - a string
+
+	![Example2](./doc/planetsByName.png)
 
 ## Specie
 
@@ -119,9 +141,9 @@ Species within the Star Wars Universe.
 
 **Queries**
 * species: Species list
-* specieByName: Species list with a given name (empty is no name matches)
-* specieByClassification: If name="Ewok", will return all characters with Ewok in the name (search is not case senstive)
-* specieByDesignation: species list of that designation (empty list if found no species)
+* speciesByName: Species list with a given name (empty is no name matches)
+* speciesByClassification: If name="Ewok", will return all characters with Ewok in the name (search is not case senstive)
+* speciesByDesignation: species list of that designation (empty list if found no species)
 
 ## Starship
 A starship within the Star Wars Universe
@@ -143,7 +165,7 @@ A starship within the Star Wars Universe
 
 **Queries**
 * starships: Starships list
-* starshipByName: List of the starships whith has a name that contains the given name (empty if no match, search is not case sensitive)
+* starshipsByName: List of the starships whith has a name that contains the given name (empty if no match, search is not case sensitive)
 
 ## Vehicle
 
@@ -164,4 +186,4 @@ A vehicle within the Star Wars universe
 
 **Queries**
 * vehicles: Vehicles list,
-* vehicleByName: Vehicles, searched by a name (empty is no vehicles match, search is not case sensitive)
+* vehiclesByName: Vehicles, searched by a name (empty is no vehicles match, search is not case sensitive)
