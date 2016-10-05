@@ -130,7 +130,7 @@ Species within the Star Wars Universe.
 **Fields**
 * name: The name of this species
 * classification: The classification of this species, such as "mammal" or "reptile"
-* designation The designation of this species
+* designation: The designation of this species
 * average_height: The average height of this species in centimeters
 * average_lifespan: The average lifespan of this species in years
 * eye_colors: List of common eye colors for this species, empty if this species does not typically have eyes
@@ -141,9 +141,29 @@ Species within the Star Wars Universe.
 
 **Queries**
 * species: Species list
+
+	![Example1](./doc/species.png)
+
 * speciesByName: Species list with a given name (empty is no name matches)
+
+		Param: name - a string
+
+	![Example2](./doc/speciesByName.png)
+
 * speciesByClassification: If name="Ewok", will return all characters with Ewok in the name (search is not case senstive)
+
+		Param: classification - an enum: AMPHIBIAN, ARTIFICIAL, GASTROPOD, INSECTOID, MAMMAL, REPTILE, REPTILIAN, SENTIENT, UNKNOWN
+
+	![Example3](./doc/speciesByClassification.png)
+
+
 * speciesByDesignation: species list of that designation (empty list if found no species)
+
+		Param: desingation - an enum: REPTILIAN, SENTIENT
+
+	![Example4](./doc/speciesByDesignation.png)
+
+
 
 ## Starship
 A starship within the Star Wars Universe
