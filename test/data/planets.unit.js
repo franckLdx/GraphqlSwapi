@@ -5,11 +5,8 @@ import {expect} from 'chai';
 import {findByName} from './tools';
 
 describe('PlanetsDB test', function() {
-	before(function(done) {
-		planetsDB.load().then(
-			()=>{done();},
-			(err)=>{done(err);}
-		);
+	before(function() {
+		return planetsDB;
 	});
 
 	it('Should returns all planets', function() {
