@@ -4,11 +4,8 @@ import filmsDB from '../../src/data/films.js';
 import {expect} from 'chai';
 
 describe('FilmsDB test', function() {
-	before(function(done) {
-		filmsDB.load().then(
-			()=>{done();},
-			(err)=>{done(err);}
-		)
+	before(function() {
+		return filmsDB.load();
 	});
 	it('findAll should returns all movies', function() {
 		expect(filmsDB.findAll().length).to.be.deep.equal(7);

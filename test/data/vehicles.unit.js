@@ -5,11 +5,8 @@ import {expect} from 'chai';
 import {findByName} from './tools';
 
 describe('VehiclesDB test', function() {
-	before(function(done) {
-		vehiclesDB.load().then(
-			()=>{done();},
-			(err)=>{done(err);}
-		);
+	before(function() {
+		return vehiclesDB.load();
 	});
 
 	it('Should returns all vehicles', function() {

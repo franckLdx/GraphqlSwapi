@@ -5,11 +5,8 @@ import {expect} from 'chai';
 import {findByName} from './tools';
 
 describe('StarshipsDB test', function() {
-	before(function(done) {
-		starshipsDB.load().then(
-			()=>{done();},
-			(err)=>{done(err);}
-		);
+	before(function() {
+		return starshipsDB.load();
 	});
 	it('Should returns all characters', function() {
 		expect(starshipsDB.findAll().length).to.be.deep.equal(37);

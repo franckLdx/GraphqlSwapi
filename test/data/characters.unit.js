@@ -5,11 +5,8 @@ import {expect} from 'chai';
 import {findByName} from './tools';
 
 describe('charactersDB test', function() {
-	before(function(done) {
-		charactersDB.load().then(
-			()=>{done();},
-			(err)=>{done(err);}
-		);
+	before(function() {
+		return charactersDB.load();
 	});
 	it('Should returns all characters', function() {
 		expect(charactersDB.findAll().length).to.be.deep.equal(87);

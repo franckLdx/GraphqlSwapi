@@ -5,11 +5,8 @@ import {expect} from 'chai';
 import {findByName} from './tools';
 
 describe('SpeciesDB test', function() {
-	before(function(done) {
-		speciesDB.load().then(
-			()=>{done();},
-			(err)=>{done(err);}
-		);
+	before(function() {
+		return speciesDB.load();
 	});
 
 	it('Should returns all species', function() {
