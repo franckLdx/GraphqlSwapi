@@ -7,39 +7,30 @@ const dataDir = './test/db';
 
 describe('JsonDB test', function() {
 	describe('loading file tests', function() {
-		it('Loading a non existing file should failed', function(done) {
+		it('Loading a non existing file should failed', function() {
 			const empty = new JsonDB('foo');
-			empty.load().then(
-				()=> {done('Should get an error');},
-				() => {done();}
-			);
+			return empty.load()
+				.then(() => Promise.reject('Should get an error'))
+				.catch(() => Promise.resolve());
 		});
-		it('Loading a non valid json file should failed', function(done) {
+		it('Loading a non valid json file should failed', function() {
 			const empty = new JsonDB(`${dataDir}/wrong.json`);
-			empty.load().then(
-				()=> {done('Should get an error');},
-				(err) => {
+			return empty.load()
+				.then(() => Promise.reject('Should get an error'))
+				.catch((err) => {
 					expect(err).to.be.an.instanceof(SyntaxError);
-					done();
-				}
-			).catch(done);
+				});
 		});
-		it('Loading a valid json file should work', function(done) {
+		it('Loading a valid json file should work', function() {
 			const valid = new JsonDB(`${dataDir}/valid.json`);
-			valid.load().then(
-				() => {done();},
-				done
-			);
+			return valid.load();
 		});
 	});
 	describe('find methods tests', function() {
 		let db;
-		before(function(done) {
+		before(function() {
 			db = new JsonDB(`${dataDir}/valid.json`);
-			db.load().then(
-				() => {done();},
-				done
-			);
+			return db.load();
 		});
 		it('FindAll should return all', function() {
 			expect(db.findAll().length).to.be.equal(2);
