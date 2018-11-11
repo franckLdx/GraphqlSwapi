@@ -1,7 +1,5 @@
 'use strict';
 
-import vehiclesDB from '../../data/vehicles.js';
-
 import {
 	GraphQLObjectType,
 	GraphQLString,
@@ -18,7 +16,7 @@ export const vehicleType = new GraphQLObjectType({
 				type: GraphQLString,
 				description: 'The name of this vehicle. The common name, such as "Sand Crawler" or "Speeder bike".'
 			},
-			model : {
+			model: {
 				type: GraphQLString,
 				description: 'The model or official name of this vehicle. Such as "All-Terrain Attack Transport."'
 			},
@@ -65,19 +63,19 @@ export const vehicleType = new GraphQLObjectType({
 export const vehiclesQuery = {
 	type: new GraphQLNonNull(new GraphQLList(vehicleType)),
 	description: 'Vehicles list',
-	resolve: () => vehiclesDB.findAll()
+	resolve: (request, param, { vehiclesDB }) => vehiclesDB.findAll()
 };
 
 export const vehiclesByNameQuery = {
 	type: new GraphQLNonNull(new GraphQLList(vehicleType)),
 	description: 'Vehicles, searched by a name (empty is no vehicles match)',
 	args: {
-		name : {
+		name: {
 			type: new GraphQLNonNull(GraphQLString),
 			description: 'If name="speeder", will return all vehicles with speeder in the name (search is not case senstive)'
 		},
 	},
-	resolve: (context, {name}) => {
+	resolve: (context, { name }, { vehiclesDB }) => {
 		if (name.length > 2048) {
 			throw new Error("Invalid name value");
 		}
@@ -85,4 +83,4 @@ export const vehiclesByNameQuery = {
 	}
 };
 
-export const findByUrls = urls => vehiclesDB.findByUrls(urls);
+export const findByUrls = (urls, { vehiclesDB }) => vehiclesDB.findByUrls(urls);

@@ -100,7 +100,6 @@ export const charactersByNameQuery = {
 		},
 	},
 	resolve: (context, { name }, { charactersDB }) => {
-		console.log(JSON.stringify(context));
 		if (name.length > 2048) {
 			throw new Error("Invalid name value");
 		}

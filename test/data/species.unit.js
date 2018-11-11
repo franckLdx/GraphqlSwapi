@@ -4,7 +4,7 @@ import loadSpeciesDB from '../../src/data/species';
 import { expect } from 'chai';
 import { findByName } from './tools';
 
-describe.only('SpeciesDB test', function () {
+describe('SpeciesDB test', function () {
 	let speciesDB;
 	before(async function () {
 		speciesDB = await loadSpeciesDB();

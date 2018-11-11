@@ -5,7 +5,7 @@ import loadCharactersDB from './data/characters';
 import loadPanetsDB from './data/planets';
 import loadSpeciesDB from './data/species';
 import loadStarshipsDB from './data/starships';
-import vehiclesDB from './data/vehicles';
+import loadVehiclesDB from './data/vehicles';
 
 import express from 'express';
 
@@ -19,14 +19,15 @@ export async function createApp() {
 		charactersDB,
 		planetsDB,
 		speciesDB,
-		starshipsDB
+		starshipsDB,
+		vehiclesDB
 	] = await Promise.all([
 		loadfilmsDB(),
 		loadCharactersDB(),
 		loadPanetsDB(),
 		loadSpeciesDB(),
 		loadStarshipsDB(),
-		// vehiclesDB.load()
+		loadVehiclesDB()
 	]);
 
 	const context = {
@@ -34,7 +35,8 @@ export async function createApp() {
 		charactersDB,
 		planetsDB,
 		speciesDB,
-		starshipsDB
+		starshipsDB,
+		vehiclesDB
 	};
 
 	app.use('/API/', getMiddelware(context));
