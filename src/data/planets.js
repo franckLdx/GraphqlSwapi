@@ -1,26 +1,23 @@
 'use strict';
 
 import JsonDB from '../db/jsonDB';
-import {getSorter, stringToArray} from '../tools/functions';
+import { getSorter, stringToArray, loadJsonFile } from '../tools/functions';
 
-class PlanetsDB extends JsonDB {
-	constructor() {
-		super('./data/planets.json');
-	}
+class PlanetsDB {
 
-	load() {
+	async load() {
 		const sorter = getSorter('name');
-		return super.load().then(() => {
-			this._items = this._items
-				.map(item => {
-					const obj = Object.assign({}, item);
-					for (let field of ['climate', 'terrain']) {
-						obj[field] = stringToArray(item[field]);
-					}
-					return obj;
-				}).sort(sorter);
-			return this;
-		});
+		const mapper = item => {
+			const obj = Object.assign({}, item);
+			for (let field of ['climate', 'terrain']) {
+				obj[field] = stringToArray(item[field]);
+			}
+			return obj;
+		};
+		const items = (await loadJsonFile('./data/planets.json'))
+			.sort(sorter);
+		this._db = new JsonDB(items);
+		return this;
 	}
 
 	findByName(name) {

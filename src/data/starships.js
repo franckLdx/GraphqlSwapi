@@ -1,23 +1,19 @@
 'use strict';
 
 import JsonDB from '../db/jsonDB';
-import {getSorter} from '../tools/functions';
+import { getSorter, loadJsonFile } from '../tools/functions';
 
-class StarshipsDB extends JsonDB {
-	constructor() {
-		super('./data/starships.json');
-	}
+class StarshipsDB {
 
-	load() {
+	async load() {
 		const sorter = getSorter('name');
-		return super.load().then(() => {
-			this._items = this._items.sort(sorter);
-			return this;
-		});
+		const items = (await loadJsonFile('./data/starships.json')).sort(sorter);
+		this._db = new JsonDB(items);
+		return this;
 	}
 
 	findByName(name) {
-		return this.findString(name, 'name');
+		return this._db.findString(name, 'name');
 	}
 
 }

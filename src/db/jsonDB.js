@@ -1,18 +1,10 @@
 'use strict';
 
-import fs from './fs';
+import fs from '../tools/fs';
 
 export default class JsonDB {
-	constructor(fileName) {
-		this._fileName = fileName;
-		this._items = undefined;
-	}
-
-	load() {
-		return fs.readFile(this._fileName).then((string) => {
-			this._items = JSON.parse(string);
-			return this;
-		});
+	constructor(items) {
+		this._items = items;
 	}
 
 	findAll() {
@@ -24,7 +16,7 @@ export default class JsonDB {
 	}
 
 	findOneByUrl(url) {
-		return this.findOne(item => item.url===url);
+		return this.findOne(item => item.url === url);
 	}
 
 	find(selector) {
@@ -33,7 +25,7 @@ export default class JsonDB {
 
 	findString(expectedValue, fieldName) {
 		const searched = expectedValue.toLowerCase();
-		return this.find(item => item[fieldName].toLowerCase().indexOf(searched)!==-1);
+		return this.find(item => item[fieldName].toLowerCase().indexOf(searched) !== -1);
 	}
 
 	findByUrls(urls) {

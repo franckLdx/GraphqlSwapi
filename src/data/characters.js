@@ -1,25 +1,19 @@
 'use strict';
 
 import JsonDB from '../db/jsonDB';
-import {getSorter} from '../tools/functions';
+import { dbMixin } from '../db/dbMixin';
+import { getSorter, loadJsonFile } from '../tools/functions';
 
-class CharactersDB extends JsonDB {
-	constructor() {
-		super('./data/people.json');
+const specific = (db) => ({
+	findByName: (name) => {
+		return db.findString(name, 'name');
 	}
+});
 
-	load() {
-		return super.load().then(() => {
-			const sorter = getSorter('name');
-			this._items = this._items.sort(sorter);
-			return this;
-		});
-	}
-
-	findByName(name) {
-		return this.findString(name, 'name');
-	}
+export default async function load() {
+	const sorter = getSorter('name');
+	const items = (await loadJsonFile('./data/people.json'))
+		.sort(sorter);
+	const db = new JsonDB(items);
+	return dbMixin(specific(db), db);
 }
-
-const charactersDB = new CharactersDB();
-export default charactersDB;

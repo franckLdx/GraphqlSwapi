@@ -18,7 +18,8 @@ import { vehicleType, findByUrls as findVehicles } from './vehicles';
 export const characterType = new GraphQLObjectType({
 	name: 'characters',
 	description: 'A character within the Star Wars universe.',
-	fields: () => { return {
+	fields: () => {
+		return {
 			name: {
 				type: GraphQLString,
 				description: 'The name of this person.'
@@ -53,31 +54,31 @@ export const characterType = new GraphQLObjectType({
 			},
 			homeworld: {
 				type: planetType,
-				description:'A planet that this person was born on or inhabits.',
-				resolve: ({homeworld}) => {
+				description: 'A planet that this person was born on or inhabits.',
+				resolve: ({ homeworld }) => {
 					const planets = findPlanets([homeworld]);
-					return planets.length ? planets[0]:undefined;
+					return planets.length ? planets[0] : undefined;
 				}
 			},
 			films: {
 				type: new GraphQLList(filmType),
-				description : 'An array of film resource URLs that this person has been in.',
-				resolve: ({films}) => findFilms(films),
+				description: 'An array of film resource URLs that this person has been in.',
+				resolve: ({ films }) => findFilms(films),
 			},
 			species: {
 				type: new GraphQLNonNull(new GraphQLList(specieType)),
 				description: 'Species that this person belonds to.',
-				resolve: ({species}) => findSpecies(species),
+				resolve: ({ species }) => findSpecies(species),
 			},
 			starships: {
 				type: new GraphQLNonNull(new GraphQLList(starshipType)),
 				description: 'Starships that this person had piloted.',
-				resolve: ({starships}) => findStarships(starships),
+				resolve: ({ starships }) => findStarships(starships),
 			},
 			vehicles: {
 				type: new GraphQLNonNull(new GraphQLList(vehicleType)),
 				description: 'Vehicles that this person had piloted.',
-				resolve: ({vehicles}) => findVehicles(vehicles),
+				resolve: ({ vehicles }) => findVehicles(vehicles),
 			}
 		};
 	}
@@ -86,19 +87,22 @@ export const characterType = new GraphQLObjectType({
 export const charactersQuery = {
 	type: new GraphQLNonNull(new GraphQLList(characterType)),
 	description: 'Characters list',
-	resolve: () => charactersDB.findAll()
+	resolve: (_parentValue, _args, { charactersDB }) => {
+		return charactersDB.findAll();
+	}
 };
 
 export const charactersByNameQuery = {
 	type: new GraphQLNonNull(new GraphQLList(characterType)),
 	description: 'Characters, searched by a name (empty is no characters match)',
 	args: {
-		name : {
+		name: {
 			type: new GraphQLNonNull(GraphQLString),
 			description: 'If name="Luke", will return all characters with luke in the name (search is not case senstive)'
 		},
 	},
-	resolve: (context, {name}) => {
+	resolve: (context, { name }, { charactersDB }) => {
+		console.log(JSON.stringify(context));
 		if (name.length > 2048) {
 			throw new Error("Invalid name value");
 		}
@@ -106,4 +110,4 @@ export const charactersByNameQuery = {
 	}
 };
 
-export const findByUrls = urls => charactersDB.findByUrls(urls);
+export const findByUrls = (urls, { charactersDB }) => charactersDB.findByUrls(urls);

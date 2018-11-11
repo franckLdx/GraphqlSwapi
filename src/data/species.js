@@ -1,33 +1,31 @@
 'use strict';
 
 import JsonDB from '../db/jsonDB';
-import {stringToArray, getSorter} from '../tools/functions';
+import { stringToArray, getSorter, loadJsonFile } from '../tools/functions';
 
-class SpeciesDB extends JsonDB {
-	constructor() {
-		super('./data/species.json');
-	}
+class SpeciesDB {
 
-	load() {
-		return super.load().then(()=> {
-			const sorter = getSorter('name');
-			this._items = this._items.map(specie => {
-				const obj = Object.assign({}, specie);
-				for (let item of ['eye_colors', 'hair_colors', 'skin_colors']) {
-					obj[item] = stringToArray(specie[item]);
-				}
-				if (specie.classification==='mammals') {
-					obj.classification='mammal';
-				}
-				return obj;
-			}).sort(sorter);
-			debugger;
-			return this;
-		});
+	async load() {
+		const sorter = getSorter('name');
+		const mapper = item => {
+			const obj = Object.assign({}, item);
+			for (let attr of ['eye_colors', 'hair_colors', 'skin_colors']) {
+				obj[attr] = stringToArray(item[attr]);
+			}
+			if (item.classification === 'mammals') {
+				obj.classification = 'mammal';
+			}
+			return obj;
+		};
+		const items = (await loadJsonFile('./data/planets.json'))
+			.map(mapper)
+			.sort(sorter);
+		this._db = new JsonDB(items);
+		return this;
 	}
 
 	findByName(name) {
-		return this.findString(name, 'name');
+		return this._db.findString(name, 'name');
 	}
 
 	findByClassification(classification) {

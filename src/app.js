@@ -1,7 +1,7 @@
 'use strict';
 
-import filmsDB from './data/films';
-import charactersDB from './data/characters';
+import loadfilmsDB from './data/films';
+import loadCharactersDB from './data/characters';
 import speciesDB from './data/species';
 import planetsDB from './data/planets';
 import starshipsDB from './data/starships';
@@ -9,22 +9,29 @@ import vehiclesDB from './data/vehicles';
 
 import express from 'express';
 
-const graphQLMiddleware = require('./graphql/api.js').getmiddelware();
+const { getMiddelware } = require('./graphql/api.js');
 
-export function createApp() {
-	const dbs = Promise.all([
-		filmsDB.load(),
-		charactersDB.load(),
-		speciesDB.load(),
-		planetsDB.load(),
-		starshipsDB.load(),
-		vehiclesDB.load()
+export async function createApp() {
+	const app = express();
+
+	const [
+		filmsDB,
+		charactersDB
+	] = await Promise.all([
+		loadfilmsDB(),
+		loadCharactersDB(),
+		// speciesDB.load(),
+		// planetsDB.load(),
+		// starshipsDB.load(),
+		// vehiclesDB.load()
 	]);
 
-	const app = express();
-	app.use('/API/', graphQLMiddleware);
+	const context = {
+		filmsDB,
+		charactersDB,
+	};
 
-	return dbs.then(() => {
-		return app;
-	});
+	app.use('/API/', getMiddelware(context));
+
+	return app;
 }
