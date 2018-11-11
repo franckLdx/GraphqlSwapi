@@ -2,22 +2,17 @@
 
 import JsonDB from '../db/jsonDB';
 import { getSorter, loadJsonFile } from '../tools/functions';
+import { dbMixin } from '../db/dbMixin';
 
-class StarshipsDB {
-
-	async load() {
-		const sorter = getSorter('name');
-		const items = (await loadJsonFile('./data/starships.json')).sort(sorter);
-		this._db = new JsonDB(items);
-		return this;
-	}
-
+const specific = (db) => ({
 	findByName(name) {
-		return this._db.findString(name, 'name');
+		return db.findString(name, 'name');
 	}
+});
 
+export default async function load() {
+	const sorter = getSorter('name');
+	const items = (await loadJsonFile('./data/starships.json')).sort(sorter);
+	const db = new JsonDB(items);
+	return dbMixin(specific(db), db);
 }
-
-const starshipsDB = new StarshipsDB();
-
-export default starshipsDB;

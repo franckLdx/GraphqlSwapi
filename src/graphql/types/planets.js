@@ -54,12 +54,12 @@ export const planetType = new GraphQLObjectType({
 			residents: {
 				type: new GraphQLNonNull(new GraphQLList(characterType)),
 				description: 'Characters that live on this planet (empty if no redident are known).',
-				resolve: ({ residents }) => findCharacters(residents)
+				resolve: ({ residents }, _, ctx) => findCharacters(residents, ctx)
 			},
 			films: {
 				type: new GraphQLNonNull(new GraphQLList(filmType)),
 				description: 'Films that this planet has appeared in.',
-				resolve: ({ films }) => findFilms(films)
+				resolve: ({ films }, _, ctx) => findFilms(films, ctx)
 			}
 		};
 	}
@@ -89,3 +89,7 @@ export const planetsByNameQuery = {
 };
 
 export const findByUrls = (urls, { planetsDB }) => planetsDB.findByUrls(urls);
+export const findByUrl = (url, { planetsDB }) => {
+	const planets = planetsDB.findByUrls(urls);
+	return planets.length > 0 ? planets[0] : undefined;
+};

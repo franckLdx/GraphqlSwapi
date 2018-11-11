@@ -1,5 +1,9 @@
 'use strict';
 
+import { filmType, findByUrls as findFilms } from './films';
+import { characterType, findByUrls as findCharacters } from './characters';
+import { planetType, findByUrl as findPlanet } from './planets';
+
 import {
 	GraphQLObjectType,
 	GraphQLString,
@@ -73,22 +77,22 @@ export const specieType = new GraphQLObjectType({
 			language: {
 				type: GraphQLString,
 				description: 'The language commonly spoken by this species.'
-			},/*
-		TO DO: to implement and complete readme
-		homeworld: {
-			type: GraphQLString,
-			description: 'The URL of a planet resource, a planet that this species originates from.'
-		},
-		characters: {
-			type: new GraphQLList(charactersType),
-			description: 'Charactes that are a part of this species.',
-			resolve: () => { return ''; }
-		},
-		films: {
-			type: new GraphQLList(filmsType),
-			description: 'Films that this species has appeared in',
-			resolve: () => { return ''; }
-		},*/
+			},
+			homewolrd: {
+				type: new GraphQLNonNull(new GraphQLList(planetType)),
+				description: `A planet that this person was born on or inhabits.`,
+				resolve: ({ homewolrd }, _, ctx) => findPlanet(planets, ctx)
+			},
+			characters: {
+				type: new GraphQLList(characterType),
+				description: 'Charactes that are a part of this species.',
+				resolve: ({ characters }, _, ctx) => findCharacters(residents, ctx)
+			},
+			films: {
+				type: new GraphQLList(filmType),
+				description: 'Films that this species has appeared in',
+				resolve: ({ films }, _, ctx) => findFilms(films, ctx)
+			},
 		};
 	}
 });
