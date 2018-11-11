@@ -2,8 +2,8 @@
 
 import loadfilmsDB from './data/films';
 import loadCharactersDB from './data/characters';
-import speciesDB from './data/species';
-import planetsDB from './data/planets';
+import loadPanetsDB from './data/planets';
+import loadSpeciesDB from './data/species';
 import starshipsDB from './data/starships';
 import vehiclesDB from './data/vehicles';
 
@@ -16,12 +16,14 @@ export async function createApp() {
 
 	const [
 		filmsDB,
-		charactersDB
+		charactersDB,
+		planetsDB,
+		speciesDB
 	] = await Promise.all([
 		loadfilmsDB(),
 		loadCharactersDB(),
-		// speciesDB.load(),
-		// planetsDB.load(),
+		loadPanetsDB(),
+		loadSpeciesDB(),
 		// starshipsDB.load(),
 		// vehiclesDB.load()
 	]);
@@ -29,6 +31,8 @@ export async function createApp() {
 	const context = {
 		filmsDB,
 		charactersDB,
+		planetsDB,
+		speciesDB,
 	};
 
 	app.use('/API/', getMiddelware(context));

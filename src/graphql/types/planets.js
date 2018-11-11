@@ -7,15 +7,13 @@ import {
 	GraphQLNonNull
 } from 'graphql';
 
-import planetsDB from '../../data/planets';
-
 import { characterType, findByUrls as findCharacters } from './characters';
 import { filmType, findByUrls as findFilms } from './films';
 
 export const planetType = new GraphQLObjectType({
 	name: 'Planet',
-  	description: `Information about a planet`,
-  	fields: () => {
+	description: `Information about a planet`,
+	fields: () => {
 		return {
 			name: {
 				type: GraphQLString,
@@ -56,12 +54,12 @@ export const planetType = new GraphQLObjectType({
 			residents: {
 				type: new GraphQLNonNull(new GraphQLList(characterType)),
 				description: 'Characters that live on this planet (empty if no redident are known).',
-				resolve: ({residents}) => findCharacters(residents)
+				resolve: ({ residents }) => findCharacters(residents)
 			},
 			films: {
 				type: new GraphQLNonNull(new GraphQLList(filmType)),
 				description: 'Films that this planet has appeared in.',
-				resolve: ({films}) => findFilms(films)
+				resolve: ({ films }) => findFilms(films)
 			}
 		};
 	}
@@ -70,19 +68,19 @@ export const planetType = new GraphQLObjectType({
 export const planetsQuery = {
 	type: new GraphQLNonNull(new GraphQLList(planetType)),
 	description: 'Planets list',
-	resolve: () => planetsDB.findAll()
+	resolve: (request, params, { planetsDB }) => planetsDB.findAll()
 };
 
 export const planetsByNameQuery = {
 	type: new GraphQLNonNull(new GraphQLList(planetType)),
 	description: 'List of the planet whith has a name that contains the given name (empty if no match, search is not case sensitive)',
 	args: {
-		name : {
+		name: {
 			type: new GraphQLNonNull(GraphQLString),
 			description: 'a full or partial planet name'
 		}
 	},
-	resolve: (context, {name}) => {
+	resolve: (request, { name }, { planetsDB }) => {
 		if (name.length > 2048) {
 			throw new Error("Invalid name value");
 		}
@@ -90,4 +88,4 @@ export const planetsByNameQuery = {
 	}
 };
 
-export const findByUrls = urls => planetsDB.findByUrls(urls);
+export const findByUrls = (urls, { planetsDB }) => planetsDB.findByUrls(urls);

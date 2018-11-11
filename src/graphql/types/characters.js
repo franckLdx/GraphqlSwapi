@@ -1,7 +1,5 @@
 'use strict';
 
-import charactersDB from '../../data/characters';
-
 import {
 	GraphQLObjectType,
 	GraphQLString,
