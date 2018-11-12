@@ -53,30 +53,30 @@ export const characterType = new GraphQLObjectType({
 			homeworld: {
 				type: planetType,
 				description: 'A planet that this person was born on or inhabits.',
-				resolve: ({ homeworld }) => {
-					const planets = findPlanets([homeworld]);
+				resolve: ({ homeworld }, _args, ctx) => {
+					const planets = findPlanets([homeworld], ctx);
 					return planets.length ? planets[0] : undefined;
 				}
 			},
 			films: {
 				type: new GraphQLList(filmType),
 				description: 'An array of film resource URLs that this person has been in.',
-				resolve: ({ films }) => findFilms(films),
+				resolve: ({ films }, _args, ctx) => findFilms(films, ctx),
 			},
 			species: {
 				type: new GraphQLNonNull(new GraphQLList(specieType)),
 				description: 'Species that this person belonds to.',
-				resolve: ({ species }) => findSpecies(species),
+				resolve: ({ species }, _args, ctx) => findSpecies(species, ctx),
 			},
 			starships: {
 				type: new GraphQLNonNull(new GraphQLList(starshipType)),
 				description: 'Starships that this person had piloted.',
-				resolve: ({ starships }) => findStarships(starships),
+				resolve: ({ starships }, _args, ctx) => findStarships(starships, ctx),
 			},
 			vehicles: {
 				type: new GraphQLNonNull(new GraphQLList(vehicleType)),
 				description: 'Vehicles that this person had piloted.',
-				resolve: ({ vehicles }) => findVehicles(vehicles),
+				resolve: ({ vehicles }, _args, ctx) => findVehicles(vehicles, ctx),
 			}
 		};
 	}

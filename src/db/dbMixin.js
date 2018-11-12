@@ -1,5 +1,5 @@
 
-export const dbMixin = (o, db) => {
+export const dbMixin = (base, db) => {
   const added = {
     findAll: () => {
       return db.findAll();
@@ -15,14 +15,14 @@ export const dbMixin = (o, db) => {
     },
     findString: (expectedValue, fieldName) => {
       const searched = expectedValue.toLowerCase();
-      return this.find(item => item[fieldName].toLowerCase().indexOf(searched) !== -1);
+      return added.find(item => item[fieldName].toLowerCase().indexOf(searched) !== -1);
     },
     findByUrls: (urls) => {
       if (!urls) {
         return [];
       }
-      return urls.map(url => this.findOneByUrl(url));
+      return urls.map(url => added.findOneByUrl(url));
     }
   }
-  return Object.assign({}, o, added);
+  return Object.assign({}, base, added);
 };

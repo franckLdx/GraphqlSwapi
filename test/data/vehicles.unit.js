@@ -1,6 +1,6 @@
 'use strict';
 
-import loadVehiclesDB from '../../src/data/vehicles';
+import { loadVehiclesDB } from '../../src/db';
 import { expect } from 'chai';
 import { findByName } from './tools';
 

@@ -1,7 +1,8 @@
 'use strict';
-import JsonDB from '../db/jsonDB';
-import { dbMixin } from '../db/dbMixin';
+import JsonDB from './jsonDB';
+import { dbMixin } from './dbMixin';
 import { getSorter, stringToArray, loadJsonFile } from '../tools/functions';
+import bunyan from 'bunyan';
 
 const specific = (db) => ({
 	findByName: (name) => {
@@ -9,17 +10,21 @@ const specific = (db) => ({
 	}
 });
 
+const mapper = item => {
+	return Object.assign(
+		{},
+		item,
+		{
+			climate: stringToArray(item.climate),
+			terrain: stringToArray(item.terrain)
+		}
+	);
+};
 
 export default async function load() {
 	const sorter = getSorter('name');
-	const mapper = item => {
-		const obj = Object.assign({}, item);
-		for (let field of ['climate', 'terrain']) {
-			obj[field] = stringToArray(item[field]);
-		}
-		return obj;
-	};
 	const items = (await loadJsonFile('./data/planets.json'))
+		.map(mapper)
 		.sort(sorter);
 	const db = new JsonDB(items);
 	return dbMixin(specific(db), db);

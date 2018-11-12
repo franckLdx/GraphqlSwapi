@@ -1,6 +1,6 @@
 'use strict';
 
-import loadPlanetsDB from '../../src/data/planets';
+import { loadPlanetsDB } from '../../src/db';
 import { expect } from 'chai';
 import { findByName } from './tools';
 

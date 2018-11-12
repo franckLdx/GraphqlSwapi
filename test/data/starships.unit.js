@@ -1,6 +1,6 @@
 'use strict';
 
-import loadStarshipsDB from '../../src/data/starships';
+import { loadStarshipsDB } from '../../src/db';
 import { expect } from 'chai';
 import { findByName } from './tools';
 

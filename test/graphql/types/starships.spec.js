@@ -1,10 +1,10 @@
 'use strict';
 
-import {expect} from 'chai';
-import {describe, it} from 'mocha';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
 
-import {getFieldsExtractor, doRequest} from './tools';
-import {getSorter} from '../../../src/tools/functions';
+import { getFieldsExtractor, doRequest } from './tools';
+import { getSorter } from '../../../src/tools/functions';
 
 import { createApp } from '../../../src/app.js';
 
@@ -12,50 +12,48 @@ import jsonStarships from '../../../data/starships.json';
 const expectedStarships = jsonStarships.sort(getSorter('name'));
 
 let app;
-describe('Starships tests suite', function() {
-	before(function() {
-		return createApp().then(_app  => {
-			app = _app
-		});
+describe('Starships tests suite', function () {
+	before(async function () {
+		app = await createApp();
 	});
-	describe('Starship list tests suite', function() {
-		it('List should be in alphabetical order along with valid data', function() {
+	describe('Starship list tests suite', function () {
+		it('List should be in alphabetical order along with valid data', function () {
 			return doRequest(app, '{starships{name,model,starship_class,manufacturer,cost_in_credits,length,crew,passengers,max_atmosphering_speed,hyperdrive_rating,MGLT,cargo_capacity,consumables}}')
-				.checkOKResponse(({starships: actualResult}) => {
-					const extractor = getFieldsExtractor('name','model','starship_class','manufacturer','cost_in_credits','length','crew','passengers','max_atmosphering_speed','hyperdrive_rating','MGLT','cargo_capacity','consumables');
+				.checkOKResponse(({ starships: actualResult }) => {
+					const extractor = getFieldsExtractor('name', 'model', 'starship_class', 'manufacturer', 'cost_in_credits', 'length', 'crew', 'passengers', 'max_atmosphering_speed', 'hyperdrive_rating', 'MGLT', 'cargo_capacity', 'consumables');
 					const expectedResult = expectedStarships.map(extractor);
 					expect(actualResult).to.be.deep.equal(expectedResult);
 				});
 		});
 	});
-	describe('Starships by name test suite', function() {
-		it('Should get a starship based on his name', function() {
+	describe('Starships by name test suite', function () {
+		it('Should get a starship based on his name', function () {
 			return doRequest(app, '{starshipsByName(name:"A-wing"){name}}')
-				.checkOKResponse(({starshipsByName: actualResult}) => {
+				.checkOKResponse(({ starshipsByName: actualResult }) => {
 					expect(actualResult.length).to.be.deep.equal(1);
 					const extractor = getFieldsExtractor('name');
 					const expectedResult = extractor(expectedStarships[0]);
 					expect(actualResult[0]).to.be.deep.equal(expectedResult);
 				});
 		});
-		it('Should get a starship based on an extract of his name', function() {
+		it('Should get a starship based on an extract of his name', function () {
 			return doRequest(app, '{starshipsByName(name:"a-WiN"){name}}')
-				.checkOKResponse(({starshipsByName: actualResult}) => {
+				.checkOKResponse(({ starshipsByName: actualResult }) => {
 					expect(actualResult.length).to.be.deep.equal(1);
 					const extractor = getFieldsExtractor('name');
 					const expectedResult = extractor(expectedStarships[0]);
 					expect(actualResult[0]).to.be.deep.equal(expectedResult);
 				});
 		});
-		it('Should get an empty list when ask for a dummy name', function() {
+		it('Should get an empty list when ask for a dummy name', function () {
 			return doRequest(app, '{starshipsByName(name:"donald ship"){name}}')
-				.checkOKResponse(({starshipsByName: actualResult}) => {
+				.checkOKResponse(({ starshipsByName: actualResult }) => {
 					expect(actualResult.length).to.be.deep.equal(0);
 				});
 		});
-		it('Should get an error when providing an invalid name', function() {
+		it('Should get an error when providing an invalid name', function () {
 			doRequest(app, '{starshipsByName(name:"123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"){name}}')
-				.expect(200)
+				.expect(500)
 				.expect((response) => {
 					expect(response.body.data).to.be.null;
 					expect(response.body.errors).not.to.be.undefined;

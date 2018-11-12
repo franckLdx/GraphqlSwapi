@@ -1,15 +1,17 @@
 'use strict';
 
-import loadfilmsDB from './data/films';
-import loadCharactersDB from './data/characters';
-import loadPanetsDB from './data/planets';
-import loadSpeciesDB from './data/species';
-import loadStarshipsDB from './data/starships';
-import loadVehiclesDB from './data/vehicles';
+import {
+	loadFilmsDB,
+	loadCharactersDB,
+	loadPlanetsDB,
+	loadSpeciesDB,
+	loadStarshipsDB,
+	loadVehiclesDB,
+} from './db'
 
 import express from 'express';
 
-const { getMiddelware } = require('./graphql/api.js');
+const { getMiddelware } = require('./graphql');
 
 export async function createApp() {
 	const app = express();
@@ -22,9 +24,9 @@ export async function createApp() {
 		starshipsDB,
 		vehiclesDB
 	] = await Promise.all([
-		loadfilmsDB(),
+		loadFilmsDB(),
 		loadCharactersDB(),
-		loadPanetsDB(),
+		loadPlanetsDB(),
 		loadSpeciesDB(),
 		loadStarshipsDB(),
 		loadVehiclesDB()

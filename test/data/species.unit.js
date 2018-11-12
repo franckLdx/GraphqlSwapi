@@ -1,6 +1,6 @@
 'use strict';
 
-import loadSpeciesDB from '../../src/data/species';
+import { loadSpeciesDB } from '../../src/db';
 import { expect } from 'chai';
 import { findByName } from './tools';
 

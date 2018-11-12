@@ -7,8 +7,6 @@ import {
 	GraphQLNonNull
 } from 'graphql';
 
-import starshipsDB from '../../data/starships.js';
-
 export const starshipType = new GraphQLObjectType({
 	name: 'starships',
 	description: 'A starship within the Star Wars Universe.',

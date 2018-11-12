@@ -1,6 +1,6 @@
 'use strict';
 
-import loadCharactersDB from '../../src/data/characters.js';
+import { loadCharactersDB } from '../../src/db';
 import { expect } from 'chai';
 import { findByName } from './tools';
 

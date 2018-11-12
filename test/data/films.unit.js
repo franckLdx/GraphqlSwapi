@@ -1,6 +1,6 @@
 'use strict';
 
-import loadFilmsDB from '../../src/data/films';
+import { loadFilmsDB } from '../../src/db';
 import { expect } from 'chai';
 
 describe('FilmsDB test', function () {
