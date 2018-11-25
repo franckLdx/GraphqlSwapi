@@ -14,9 +14,23 @@ export default async function load() {
 }
 
 function mapper(item) {
-	const { url, ...data } = item;
+	const {
+		url,
+		homeworld,
+		films,
+		species,
+		vehicles,
+		starships,
+		...data
+	} = item;
+
 	const obj = Object.assign({}, data, {
 		id: urlToId(url),
+		homeworld: urlToId(homeworld),
+		films: films.map(urlToId),
+		species: species.map(urlToId),
+		vehicles: vehicles.map(urlToId),
+		starships: starships.map(urlToId),
 	});
 	return obj;
 };

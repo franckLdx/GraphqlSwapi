@@ -24,7 +24,7 @@ const expectedSpecies = jsonSpecies.map(specie => {
 
 function expectedByField(fieldName, value) {
 	const wanted = value.trim().toUpperCase();
-	return expectedSpecies.find(s => s[fieldName] === wanted);
+	return expectedSpecies.filter(s => s[fieldName] === wanted);
 }
 
 let app;
@@ -77,12 +77,13 @@ describe('Species tests suite', function () {
 		});
 	});
 	describe('Species Classification tests suite', function () {
-		it('Sould return species for the given classification', function () {
+		it('Should return species for the given classification', function () {
 			const classification = 'AMPHIBIAN';
 			return doRequest(app, `{speciesByClassification(classification:${classification}){name,classification}}`)
 				.checkOKResponse(({ speciesByClassification: actualResult }) => {
 					const extractor = getFieldsExtractor('name', 'classification');
-					const expectedResult = expectedByField('classification', classification).map(extractor); expect(actualResult).to.be.deep.equal(expectedResult);
+					const expectedResult = expectedByField('classification', classification).map(extractor);
+					expect(actualResult).to.be.deep.equal(expectedResult);
 				});
 		});
 	});

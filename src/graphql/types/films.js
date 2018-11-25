@@ -8,11 +8,11 @@ import {
 	GraphQLNonNull
 } from 'graphql';
 
-import { characterType, findByUrls as findCharacters } from './characters';
-import { specieType, findByUrls as findSpecies } from './species';
-import { starshipType, findByUrls as findStarships } from './starships';
-import { vehicleType, findByUrls as findVehicles } from './vehicles';
-import { planetType, findByUrls as findPlanets } from './planets';
+import { characterType, filterByIds as findCharacters } from './characters';
+import { specieType, filterByIds as findSpecies } from './species';
+import { starshipType, filterByIds as findStarships } from './starships';
+import { vehicleType, filterByIds as filterVehicles } from './vehicles';
+import { planetType, filterByIds as findPlanets } from './planets';
 
 export const filmType = new GraphQLObjectType({
 	name: 'Film',
@@ -56,7 +56,7 @@ export const filmType = new GraphQLObjectType({
 			vehicles: {
 				type: new GraphQLNonNull(new GraphQLList(vehicleType)),
 				description: `List of vehicles that in this film.`,
-				resolve: ({ vehicles }, _, ctx) => findVehicles(vehicles, ctx)
+				resolve: ({ vehicles }, _, ctx) => filterVehicles(vehicles, ctx)
 			},
 			director: {
 				type: GraphQLString,
@@ -83,7 +83,7 @@ export const filmByIdQuery = {
 	type: filmType,
 	description: 'Return the film with the given id or null it there\'s no film for the episode',
 	args: {
-		id: { type: new GraphQLNonNull(GraphQLInt) },
+		id: { type: new GraphQLNonNull(GraphQLString) },
 	},
 	resolve: (context, { id }, { filmsDB }) => filmsDB.getById(id)
 };
@@ -105,4 +105,4 @@ export const filmsByTitleQuery = {
 	}
 };
 
-export const findByUrls = (urls, { filmsDB }) => filmsDB.findByUrls(urls);
+export const filterByIds = (ids, { filmsDB }) => filmsDB.filterByIds(ids);

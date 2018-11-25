@@ -14,11 +14,24 @@ export default async function load() {
 }
 
 function mapper(item) {
-	const { episode_id, producer, characters, ...data } = item;
+	const {
+		episode_id,
+		producer,
+		characters,
+		species,
+		planets,
+		starships,
+		vehicles,
+		...data
+	} = item;
 	const obj = Object.assign({}, data, {
 		id: episode_id.toString(),
 		producers: stringToArray(producer),
-		characters: characters.map(urlToId)
+		characters: characters.map(urlToId),
+		species: species.map(urlToId),
+		starships: starships.map(urlToId),
+		planets: planets.map(urlToId),
+		vehicles: vehicles.map(urlToId),
 	});
 	return obj;
 };

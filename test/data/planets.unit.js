@@ -1,6 +1,7 @@
 'use strict';
 
 import { loadPlanetsDB } from '../../src/db';
+import { filterByName } from './tools';
 import { expect } from 'chai';
 
 describe('PlanetsDB test', function () {

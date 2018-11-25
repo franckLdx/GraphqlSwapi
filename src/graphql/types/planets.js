@@ -7,8 +7,8 @@ import {
 	GraphQLNonNull
 } from 'graphql';
 
-import { characterType, findByUrls as findCharacters } from './characters';
-import { filmType, findByUrls as findFilms } from './films';
+import { characterType, filterByIds as findCharacters } from './characters';
+import { filmType, filterByIds as findFilms } from './films';
 
 export const planetType = new GraphQLObjectType({
 	name: 'Planet',
@@ -91,8 +91,6 @@ export const planetsByNameQuery = {
 	}
 };
 
-export const findByUrls = (urls, { planetsDB }) => planetsDB.findByUrls(urls);
-export const findByUrl = (url, { planetsDB }) => {
-	const planets = planetsDB.findByUrls(urls);
-	return planets.length > 0 ? planets[0] : undefined;
-};
+export const filterByIds = (urls, { planetsDB }) => planetsDB.filterByIds(urls);
+
+export const findById = (id, { planetsDB }) => planetsDB.getById(id);

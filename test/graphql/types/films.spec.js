@@ -37,7 +37,7 @@ describe('Films tests suite', function () {
 	});
 	describe('Films by episode id tests suite', function () {
 		it('Should get the wanted episode', function () {
-			return doRequest(app, '{filmById(id:5){id,title,opening_crawl,director,producers,release_date}}')
+			return doRequest(app, '{filmById(id:"5"){id,title,opening_crawl,director,producers,release_date}}')
 				.checkOKResponse(({ filmById: actualResult }) => {
 					const extractor = getFieldsExtractor('id', 'title', 'opening_crawl', 'director', 'producers', 'release_date');
 					const expectedResult = extractor(expectedFilms[4]);
@@ -45,7 +45,7 @@ describe('Films tests suite', function () {
 				});
 		});
 		it('Use a non existing episode id, should get a null response', function () {
-			return doRequest(app, '{filmById(id:10000){id,title,opening_crawl,director,producers,release_date}}')
+			return doRequest(app, '{filmById(id:"10000"){id,title,opening_crawl,director,producers,release_date}}')
 				.checkOKResponse(({ filmById: actualResult }) => {
 					expect(actualResult).to.be.null;
 				});
@@ -87,7 +87,7 @@ describe('Films tests suite', function () {
 	});
 	describe('Related types should be in the response', function () {
 		it('Characters should be in the response', function () {
-			return doRequest(app, '{filmById(id:5){id,title,characters{name}}}')
+			return doRequest(app, '{filmById(id:"5"){id,title,characters{name}}}')
 				.expect(200)
 				.expect((response) => {
 					const extractor = getFieldsExtractor('id', 'title', 'characters');
@@ -99,7 +99,7 @@ describe('Films tests suite', function () {
 				});
 		});
 		it('Species should be in the response', function () {
-			return doRequest(app, '{filmById(id:5){id,title,species{name}}}')
+			return doRequest(app, '{filmById(id:"5"){id,title,species{name}}}')
 				.checkOKResponse(({ filmById: actualResult }) => {
 					const extractor = getFieldsExtractor('id', 'title', 'species');
 					const expectedResult = extractor(expectedFilms[4]);
@@ -108,7 +108,7 @@ describe('Films tests suite', function () {
 				});
 		});
 		it('Starships should be in the response', function () {
-			return doRequest(app, '{filmById(id:5){id,starships{name}}}')
+			return doRequest(app, '{filmById(id:"5"){id,starships{name}}}')
 				.checkOKResponse(({ filmById: actualResult }) => {
 					const extractor = getFieldsExtractor('id', 'starships');
 					const expectedResult = extractor(expectedFilms[4]);
@@ -117,7 +117,7 @@ describe('Films tests suite', function () {
 				});
 		});
 		it('Vehicles should be in the response', function () {
-			return doRequest(app, '{filmById(id:5){id,vehicles{name}}}')
+			return doRequest(app, '{filmById(id:"5"){id,vehicles{name}}}')
 				.checkOKResponse(({ filmById: actualResult }) => {
 					const extractor = getFieldsExtractor('id', 'vehicles');
 					const expectedResult = extractor(expectedFilms[4]);
@@ -126,7 +126,7 @@ describe('Films tests suite', function () {
 				});
 		});
 		it('Planets should be in the response', function () {
-			return doRequest(app, '{filmById(id:5){id,planets{name}}}')
+			return doRequest(app, '{filmById(id:"5"){id,planets{name}}}')
 				.checkOKResponse(({ filmById: actualResult }) => {
 					const extractor = getFieldsExtractor('id', 'planets');
 					const expectedResult = extractor(expectedFilms[4]);

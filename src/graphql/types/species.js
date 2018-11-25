@@ -1,8 +1,8 @@
 'use strict';
 
-import { filmType, findByUrls as findFilms } from './films';
-import { characterType, findByUrls as findCharacters } from './characters';
-import { planetType, findByUrl as findPlanet } from './planets';
+import { filmType, filterByIds as findFilms } from './films';
+import { characterType, filterByIds as findCharacters } from './characters';
+import { planetType, findById as findPlanet } from './planets';
 
 import {
 	GraphQLObjectType,
@@ -85,12 +85,12 @@ export const specieType = new GraphQLObjectType({
 			homewolrd: {
 				type: new GraphQLNonNull(new GraphQLList(planetType)),
 				description: `A planet that this person was born on or inhabits.`,
-				resolve: ({ homewolrd }, _, ctx) => findPlanet(planets, ctx)
+				resolve: ({ homewolrd }, _, ctx) => findPlanet(homewolrd, ctx)
 			},
 			characters: {
 				type: new GraphQLList(characterType),
 				description: 'Charactes that are a part of this species.',
-				resolve: ({ characters }, _, ctx) => findCharacters(residents, ctx)
+				resolve: ({ characters }, _, ctx) => findCharacters(characters, ctx)
 			},
 			films: {
 				type: new GraphQLList(filmType),
@@ -154,4 +154,4 @@ export const speciesByDesignationQuery = {
 	}
 };
 
-export const findByUrls = (urls, { speciesDB }) => speciesDB.findByUrls(urls);
+export const filterByIds = (ids, { speciesDB }) => speciesDB.filterByIds(ids);

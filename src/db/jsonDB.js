@@ -8,7 +8,7 @@ export function getDB(items) {
 			return items;
 		},
 
-		findByIds(ids) {
+		filterByIds(ids) {
 			if (!ids) {
 				return [];
 			}

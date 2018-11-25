@@ -7,11 +7,18 @@ import {
 	GraphQLNonNull
 } from 'graphql';
 
+import { filmType, filterByIds as findFilms } from './films';
+import { characterType, filterByIds as findCharacters } from './characters';
+
 export const vehicleType = new GraphQLObjectType({
 	name: 'vehicles',
 	description: 'A vehicle within the Star Wars universe.',
 	fields: () => {
 		return {
+			id: {
+				type: GraphQLString,
+				description: 'Vehicle id.'
+			},
 			name: {
 				type: GraphQLString,
 				description: 'The name of this vehicle. The common name, such as "Sand Crawler" or "Speeder bike".'
@@ -55,7 +62,13 @@ export const vehicleType = new GraphQLObjectType({
 			consumables: {
 				type: GraphQLString,
 				description: 'The maximum number of kilograms that this vehicle can transport.'
+			},
+			films: {
+				type: new GraphQLList(filmType),
+				description: 'Films that this starships has appeared in',
+				resolve: ({ films }, _, ctx) => findFilms(films, ctx)
 			}
+
 		};
 	}
 });
@@ -83,4 +96,5 @@ export const vehiclesByNameQuery = {
 	}
 };
 
-export const findByUrls = (urls, { vehiclesDB }) => vehiclesDB.findByUrls(urls);
+export const filterByIds = (ids, { vehiclesDB }) =>
+	vehiclesDB.filterByIds(ids);

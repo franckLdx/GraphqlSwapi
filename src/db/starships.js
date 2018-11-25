@@ -10,5 +10,5 @@ export default async function load() {
 		.map(urlToIdMapper)
 		.sort(sorter);
 	const db = getDB(items);
-	return Object.assign({}, db, getFilterbyNameMixin);
+	return Object.assign({}, db, getFilterbyNameMixin());
 }

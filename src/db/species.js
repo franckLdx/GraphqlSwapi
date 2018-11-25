@@ -23,14 +23,30 @@ export default async function load() {
 	);
 };
 
+import bunyan from 'bunyan';
+const logger = bunyan.createLogger({ name: "Graphql-Swapi" });
+
 function mapper(item) {
-	const { url, classification, eye_colors, hair_colors, skin_colors, ...data } = item;
+	const {
+		url,
+		classification,
+		eye_colors,
+		hair_colors,
+		skin_colors,
+		homeworld,
+		people,
+		films,
+		...data
+	} = item;
 	const obj = Object.assign({}, data, {
 		id: urlToId(url),
 		eye_colors: stringToArray(eye_colors),
 		hair_colors: stringToArray(hair_colors),
 		skin_colors: stringToArray(skin_colors),
-		classification: classification === 'mammals' ? 'mammal' : classification
+		classification: classification === 'mammals' ? 'mammal' : classification,
+		homeworld: urlToId(homeworld),
+		characters: people.map(urlToId),
+		films: films.map(urlToId),
 	});
 	return obj;
 };

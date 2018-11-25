@@ -7,11 +7,11 @@ import {
 	GraphQLNonNull
 } from 'graphql';
 
-import { filmType, findByUrls as findFilms } from './films';
-import { specieType, findByUrls as findSpecies } from './species';
-import { planetType, findByUrls as findPlanets } from './planets';
-import { starshipType, findByUrls as findStarships } from './starships';
-import { vehicleType, findByUrls as findVehicles } from './vehicles';
+import { filmType, filterByIds as findFilms } from './films';
+import { specieType, filterByIds as findSpecies } from './species';
+import { planetType, filterByIds as findPlanets } from './planets';
+import { starshipType, filterByIds as findStarships } from './starships';
+import { vehicleType, filterByIds as findVehicles } from './vehicles';
 
 export const characterType = new GraphQLObjectType({
 	name: 'characters',
@@ -111,6 +111,6 @@ export const charactersByNameQuery = {
 	}
 };
 
-export function findByUrls(urls, { charactersDB }) {
-	return charactersDB.findByUrls(urls);
+export function filterByIds(ids, { charactersDB }) {
+	return charactersDB.filterByIds(ids);
 }

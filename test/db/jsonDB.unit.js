@@ -24,7 +24,7 @@ describe('JsonDB test', function () {
 			return loadJsonFile(`${dataDir}/valid.json`);
 		});
 	});
-	describe('find methods tests', function () {
+	describe('methods tests', function () {
 		let db;
 		before(async function () {
 			const items = await loadJsonFile(`${dataDir}/valid.json`);
@@ -35,15 +35,15 @@ describe('JsonDB test', function () {
 		});
 		describe('find method tests', function () {
 			it('find should return the machting item', function () {
-				expect(db.find(item => item.id === 1)[0].id).to.be.equal(1);
+				expect(db.find(item => item.id === '1').id).to.be.equal('1');
 			});
 			it('find should return undefined when no item match', function () {
-				expect(db.find(item => item.id === 'f!crxe*?;').length).to.be.equal(0);
+				expect(db.find(item => item.id === 'f!crxe*?;')).to.be.undefined;
 			});
 		});
 		describe('getById method tests', function () {
 			it('getById should return the machting item', function () {
-				const id = 1;
+				const id = '1';
 				expect(db.getById(id).id).to.be.deep.equal(id);
 			});
 			it('getById should return undefined when no item match', function () {
@@ -69,9 +69,9 @@ describe('JsonDB test', function () {
 		});
 		describe('filter method tests', function () {
 			it('filter should return the machting item', function () {
-				const found = db.filter(item => item.id === 1);
+				const found = db.filter(item => item.id === '1');
 				expect(found.length).to.be.deep.equal(1);
-				expect(found[0].id).to.be.deep.equal(1);
+				expect(found[0].id).to.be.deep.equal('1');
 			});
 			it('filter should return all machting items', function () {
 				const found = db.filter(item => true);
@@ -81,15 +81,16 @@ describe('JsonDB test', function () {
 				expect(db.filter(item => item.id === 'f!crxe*?;').length).to.be.deep.equal(0);
 			});
 		});
-	});
-	describe('find method tests', function () {
-		it('find should return the machting item', function () {
-			const id = '1';
-			const found = db.find(item => item.id === id);
-			expect(found[0].id).to.be.deep.equal(id);
-		});
-		it('filter should return undefined when no item match', function () {
-			expect(db.filter(item => item.id === 'f!crxe*?;').length).to.be.undefined;
+
+		describe('find method tests', function () {
+			it('find should return the machting item', function () {
+				const id = '1';
+				const found = db.find(item => item.id === id);
+				expect(found.id).to.be.deep.equal(id);
+			});
+			it('filter should return undefined when no item match', function () {
+				expect(db.find(item => item.id === 'f!crxe*?;')).to.be.undefined;
+			});
 		});
 	});
 });

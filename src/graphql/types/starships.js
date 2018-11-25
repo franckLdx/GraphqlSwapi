@@ -7,11 +7,17 @@ import {
 	GraphQLNonNull
 } from 'graphql';
 
+import { filmType, filterByIds as findFilms } from './films';
+
 export const starshipType = new GraphQLObjectType({
 	name: 'starships',
 	description: 'A starship within the Star Wars Universe.',
 	fields: () => {
 		return {
+			id: {
+				type: GraphQLString,
+				description: 'Starship id.'
+			},
 			name: {
 				type: GraphQLString,
 				description: 'The name of this starship. The common name, such as "Death Star".'
@@ -65,6 +71,11 @@ export const starshipType = new GraphQLObjectType({
 				type: GraphQLString,
 				description: 'The maximum length of time that this starship can provide consumables for its entire crew without having to resupply.'
 			},
+			films: {
+				type: new GraphQLList(filmType),
+				description: 'Films that this starships has appeared in',
+				resolve: ({ films }, _, ctx) => findFilms(films, ctx)
+			},
 		};
 	}
 });
@@ -94,4 +105,4 @@ export const starshipsByNameQuery = {
 	}
 };
 
-export const findByUrls = (urls, { starshipsDB }) => { return starshipsDB.findByUrls(urls); }
+export const filterByIds = (urls, { starshipsDB }) => { return starshipsDB.filterByIds(urls); }

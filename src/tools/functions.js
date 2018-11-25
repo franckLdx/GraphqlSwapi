@@ -25,6 +25,9 @@ export function stringToArray(string, separator = ',') {
 }
 
 export const urlToId = (url) => {
+	if (!url) {
+		return undefined;
+	}
 	const splited = url.split('/');
 	return splited[splited.length - 2];
 };
