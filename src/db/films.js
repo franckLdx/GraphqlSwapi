@@ -1,35 +1,24 @@
 'use strict';
 
-import JsonDB from './jsonDB';
-import { stringToArray, getSorter, loadJsonFile } from '../tools/functions';
-import { dbMixin } from './dbMixin';
-
-const specific = (db) => ({
-
-	findById: (id) => {
-		return db.findOne(film => film.id === id);
-	},
-
-	findByTitle: (title) => {
-		return db.findString(title, 'title');
-	},
-});
-
-const mapper = item => {
-	const obj = Object.assign({}, item, {
-		id: item.episode_id,
-		producers: stringToArray(item.producer),
-	});
-	delete obj.episode_id;
-	delete obj.producer;
-	return obj;
-};
+import JsonDB, { getDB } from './jsonDB';
+import { stringToArray, getSorter, loadJsonFile, urlToId } from '../tools/functions';
+import { getFilterTitleMixin } from './dbMixin';
 
 export default async function load() {
 	const sorter = getSorter('id');
 	const items = (await loadJsonFile('./data/films.json'))
 		.map(mapper)
 		.sort(sorter);
-	const db = new JsonDB(items);
-	return dbMixin(specific(db), db);
+	const db = getDB(items);
+	return Object.assign({}, db, getFilterTitleMixin());
 }
+
+function mapper(item) {
+	const { episode_id, producer, characters, ...data } = item;
+	const obj = Object.assign({}, data, {
+		id: episode_id.toString(),
+		producers: stringToArray(producer),
+		characters: characters.map(urlToId)
+	});
+	return obj;
+};

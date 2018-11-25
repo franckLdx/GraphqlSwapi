@@ -8,16 +8,19 @@ import { getFieldsExtractor, doRequest } from './tools';
 import { createApp } from '../../../src/app.js';
 
 import jsonCharacters from '../../../data/people.json';
-const expectedCharacters =
-	jsonCharacters.sort((character1, character2) => {
-		return character1.name < character2.name ? -1 : 1;
-	});
 
-let app;
 describe('Characters tests suite', function () {
+	const expectedCharacters =
+		jsonCharacters.sort((character1, character2) => {
+			return character1.name < character2.name ? -1 : 1;
+		});
+
+	let app;
+
 	before(async function () {
 		app = await createApp();
 	});
+
 	describe('Characters list tests suite', function () {
 		it('List should be in alphabetical order along with valid data', function () {
 			return doRequest(app, '{characters{name,birth_year,eye_color,hair_color,gender,height,mass,skin_color}}')
@@ -28,6 +31,7 @@ describe('Characters tests suite', function () {
 				});
 		});
 	});
+
 	describe('Characters by name test suite', function () {
 		it('Should get a character based on his name', function () {
 			return doRequest(app, '{charactersByName(name:"Ackbar"){name,birth_year,eye_color,hair_color,gender,height,mass,skin_color}}')
@@ -62,6 +66,7 @@ describe('Characters tests suite', function () {
 				});
 		});
 	});
+
 	describe('Related types should be in the response', function () {
 		it('Films should be in the response', function () {
 			return doRequest(app, '{charactersByName(name:"Ackbar"){name,films{title}}}')

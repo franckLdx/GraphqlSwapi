@@ -42,6 +42,10 @@ export const specieType = new GraphQLObjectType({
 	description: 'A species within the Star Wars Universe.',
 	fields: () => {
 		return {
+			id: {
+				type: GraphQLString,
+				description: 'Species id.'
+			},
 			name: {
 				type: GraphQLString,
 				description: 'The name of this species.'
@@ -101,7 +105,7 @@ export const speciesQuery = {
 	type: new GraphQLNonNull(new GraphQLList(specieType)),
 	description: 'species list',
 	resolve: (request, params, { speciesDB }) => {
-		return speciesDB.findAll();
+		return speciesDB.all();
 	}
 };
 
@@ -118,7 +122,7 @@ export const speciesByNameQuery = {
 		if (name.length > 2048) {
 			throw new Error("Invalid name value");
 		}
-		return speciesDB.findByName(name);
+		return speciesDB.filterByName(name);
 	}
 };
 
@@ -132,7 +136,7 @@ export const speciesByClassificationQuery = {
 		},
 	},
 	resolve: (context, { classification }, { speciesDB }) => {
-		return speciesDB.findByClassification(classification);
+		return speciesDB.filterByClassification(classification);
 	}
 };
 
@@ -146,7 +150,7 @@ export const speciesByDesignationQuery = {
 		},
 	},
 	resolve: (context, { designation }, { speciesDB }) => {
-		return speciesDB.findByDesignation(designation);
+		return speciesDB.filterByDesignation(designation);
 	}
 };
 

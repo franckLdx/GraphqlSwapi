@@ -34,7 +34,9 @@ export const filmType = new GraphQLObjectType({
 			characters: {
 				type: new GraphQLNonNull(new GraphQLList(characterType)),
 				description: 'An array of characters that are in this film',
-				resolve: ({ characters }, _, ctx) => findCharacters(characters, ctx)
+				resolve({ characters }, _, ctx) {
+					return findCharacters(characters, ctx);
+				}
 			},
 			species: {
 				type: new GraphQLNonNull(new GraphQLList(specieType)),
@@ -74,7 +76,7 @@ export const filmType = new GraphQLObjectType({
 
 export const filmsQuery = {
 	type: new GraphQLNonNull(new GraphQLList(filmType)),
-	resolve: (_parentValue, _args, { filmsDB }) => filmsDB.findAll()
+	resolve: (_parentValue, _args, { filmsDB }) => filmsDB.all()
 };
 
 export const filmByIdQuery = {
@@ -83,7 +85,7 @@ export const filmByIdQuery = {
 	args: {
 		id: { type: new GraphQLNonNull(GraphQLInt) },
 	},
-	resolve: (context, { id }, { filmsDB }) => filmsDB.findById(id)
+	resolve: (context, { id }, { filmsDB }) => filmsDB.getById(id)
 };
 
 export const filmsByTitleQuery = {
@@ -99,7 +101,7 @@ export const filmsByTitleQuery = {
 		if (title.length > 2048) {
 			throw new Error("Invalid id value");
 		}
-		return filmsDB.findByTitle(title);
+		return filmsDB.filterByTitle(title);
 	}
 };
 

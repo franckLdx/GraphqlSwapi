@@ -24,7 +24,7 @@ const expectedSpecies = jsonSpecies.map(specie => {
 
 function expectedByField(fieldName, value) {
 	const wanted = value.trim().toUpperCase();
-	return expectedSpecies.filter(s => s[fieldName] === wanted);
+	return expectedSpecies.find(s => s[fieldName] === wanted);
 }
 
 let app;

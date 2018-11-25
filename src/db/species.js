@@ -1,37 +1,36 @@
 'use strict';
 
-import JsonDB from './jsonDB';
-import { stringToArray, getSorter, loadJsonFile } from '../tools/functions';
-import { dbMixin } from './dbMixin';
-
-const specific = (db) => ({
-	findByName: (name) => {
-		return db.findString(name, 'name');
-	},
-	findByClassification: (classification) => {
-		return db.findString(classification, 'classification');
-	},
-	findByDesignation: (designation) => {
-		return db.findString(designation, 'designation');
-	},
-});
-
-const mapper = item => {
-	const obj = Object.assign({}, item);
-	for (let attr of ['eye_colors', 'hair_colors', 'skin_colors']) {
-		obj[attr] = stringToArray(item[attr]);
-	}
-	if (item.classification === 'mammals') {
-		obj.classification = 'mammal';
-	}
-	return obj;
-};
+import { getDB } from './jsonDB';
+import { stringToArray, getSorter, urlToId, loadJsonFile } from '../tools/functions';
+import {
+	getFilterbyNameMixin,
+	getFilterbyClassificationMixin,
+	getFilterbyDesignationMixin
+} from './dbMixin';
 
 export default async function load() {
 	const sorter = getSorter('name');
 	const items = (await loadJsonFile('./data/species.json'))
 		.map(mapper)
 		.sort(sorter);
-	const db = new JsonDB(items);
-	return dbMixin(specific(db), db);
-}
+	const db = getDB(items);
+	return Object.assign(
+		{},
+		db,
+		getFilterbyNameMixin(),
+		getFilterbyClassificationMixin(),
+		getFilterbyDesignationMixin(),
+	);
+};
+
+function mapper(item) {
+	const { url, classification, eye_colors, hair_colors, skin_colors, ...data } = item;
+	const obj = Object.assign({}, data, {
+		id: urlToId(url),
+		eye_colors: stringToArray(eye_colors),
+		hair_colors: stringToArray(hair_colors),
+		skin_colors: stringToArray(skin_colors),
+		classification: classification === 'mammals' ? 'mammal' : classification
+	});
+	return obj;
+};

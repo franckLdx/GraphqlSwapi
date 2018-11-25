@@ -24,6 +24,11 @@ export function stringToArray(string, separator = ',') {
 		.map(s => s.trim());
 }
 
+export const urlToId = (url) => {
+	const splited = url.split('/');
+	return splited[splited.length - 2];
+};
+
 export async function loadJsonFile(fileName) {
 	const raw = await fs.readFile(fileName);
 	return JSON.parse(raw);

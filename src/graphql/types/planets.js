@@ -15,7 +15,10 @@ export const planetType = new GraphQLObjectType({
 	description: `Information about a planet`,
 	fields: () => {
 		return {
-			name: {
+			id: {
+				type: GraphQLString,
+				description: 'Planet id.',
+			}, name: {
 				type: GraphQLString,
 				description: 'The name of this planet.',
 			},
@@ -68,7 +71,7 @@ export const planetType = new GraphQLObjectType({
 export const planetsQuery = {
 	type: new GraphQLNonNull(new GraphQLList(planetType)),
 	description: 'Planets list',
-	resolve: (request, params, { planetsDB }) => planetsDB.findAll()
+	resolve: (request, params, { planetsDB }) => planetsDB.all()
 };
 
 export const planetsByNameQuery = {
@@ -84,7 +87,7 @@ export const planetsByNameQuery = {
 		if (name.length > 2048) {
 			throw new Error("Invalid name value");
 		}
-		return planetsDB.findByName(name);
+		return planetsDB.filterByName(name);
 	}
 };
 

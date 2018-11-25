@@ -63,7 +63,7 @@ export const vehicleType = new GraphQLObjectType({
 export const vehiclesQuery = {
 	type: new GraphQLNonNull(new GraphQLList(vehicleType)),
 	description: 'Vehicles list',
-	resolve: (request, param, { vehiclesDB }) => vehiclesDB.findAll()
+	resolve: (request, param, { vehiclesDB }) => vehiclesDB.all()
 };
 
 export const vehiclesByNameQuery = {
@@ -79,7 +79,7 @@ export const vehiclesByNameQuery = {
 		if (name.length > 2048) {
 			throw new Error("Invalid name value");
 		}
-		return vehiclesDB.findByName(name);
+		return vehiclesDB.filterByName(name);
 	}
 };
 

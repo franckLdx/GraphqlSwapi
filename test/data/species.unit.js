@@ -2,7 +2,7 @@
 
 import { loadSpeciesDB } from '../../src/db';
 import { expect } from 'chai';
-import { findByName } from './tools';
+import { filterByName } from './tools';
 
 describe('SpeciesDB test', function () {
 	let speciesDB;
@@ -11,38 +11,38 @@ describe('SpeciesDB test', function () {
 	});
 
 	it('Should returns all species', function () {
-		expect(speciesDB.findAll().length).to.be.deep.equal(37);
+		expect(speciesDB.all().length).to.be.deep.equal(37);
 	});
 
 	describe('classification tests', function () {
 		it('Should returns all species for a classification', function () {
-			expect(speciesDB.findByClassification('MAMMAL').length).to.be.deep.equal(17);
+			expect(speciesDB.filterByClassification('MAMMAL').length).to.be.deep.equal(17);
 		});
 
 		it('Should an empty list for an unknown classification', function () {
-			expect(speciesDB.findByClassification('oncle picson').length).to.be.deep.equal(0);
+			expect(speciesDB.filterByClassification('oncle picson').length).to.be.deep.equal(0);
 		});
 	});
 
 	describe('Designation tests', function () {
 		it('Should returns all species for a designation', function () {
-			expect(speciesDB.findByDesignation('SENTIENT').length).to.be.deep.equal(36);
+			expect(speciesDB.filterByDesignation('SENTIENT').length).to.be.deep.equal(36);
 		});
 
 		it('Should an empty list for an unknown desingation', function () {
-			expect(speciesDB.findByDesignation('oncle picson').length).to.be.deep.equal(0);
+			expect(speciesDB.filterByDesignation('oncle picson').length).to.be.deep.equal(0);
 		});
 	});
 
-	describe('findByName test', function () {
+	describe('filterByName test', function () {
 		it('Should return the matching species', function () {
-			findByName(speciesDB, 'Aleena', 1);
+			filterByName(speciesDB, 'Aleena', 1);
 		});
 		it('Should return all matching species', function () {
-			findByName(speciesDB, 'aLee', 2);
+			filterByName(speciesDB, 'aLee', 2);
 		});
 		it('Should return an empty array: no matching specie', function () {
-			findByName(speciesDB, 'revgbebcugh', 0);
+			filterByName(speciesDB, 'revgbebcugh', 0);
 		});
 	});
 });

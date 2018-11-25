@@ -73,7 +73,7 @@ export const starshipsQuery = {
 	type: new GraphQLNonNull(new GraphQLList(starshipType)),
 	description: 'Starships list',
 	resolve: (request, param, { starshipsDB }) => {
-		return starshipsDB.findAll();
+		return starshipsDB.all();
 	}
 };
 
@@ -90,7 +90,7 @@ export const starshipsByNameQuery = {
 		if (name.length > 2048) {
 			throw new Error("Invalid name value");
 		}
-		return starshipsDB.findByName(name);
+		return starshipsDB.filterByName(name);
 	}
 };
 

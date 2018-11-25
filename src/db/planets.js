@@ -1,31 +1,27 @@
 'use strict';
-import JsonDB from './jsonDB';
-import { dbMixin } from './dbMixin';
-import { getSorter, stringToArray, loadJsonFile } from '../tools/functions';
-import bunyan from 'bunyan';
 
-const specific = (db) => ({
-	findByName: (name) => {
-		return db.findString(name, 'name');
-	}
-});
-
-const mapper = item => {
-	return Object.assign(
-		{},
-		item,
-		{
-			climate: stringToArray(item.climate),
-			terrain: stringToArray(item.terrain)
-		}
-	);
-};
+import { getDB } from './jsonDB';
+import { getSorter, urlToId, stringToArray, loadJsonFile } from '../tools/functions';
+import { getFilterbyNameMixin } from './dbMixin'
 
 export default async function load() {
 	const sorter = getSorter('name');
 	const items = (await loadJsonFile('./data/planets.json'))
 		.map(mapper)
 		.sort(sorter);
-	const db = new JsonDB(items);
-	return dbMixin(specific(db), db);
+	const db = getDB(items);
+	return Object.assign({}, db, getFilterbyNameMixin());
 }
+
+function mapper(item) {
+	const { url, climate, terrain, ...data } = item;
+	return Object.assign(
+		{},
+		data,
+		{
+			id: urlToId(url),
+			climate: stringToArray(climate),
+			terrain: stringToArray(terrain)
+		},
+	);
+};

@@ -10,6 +10,7 @@ import {
 } from './db'
 
 import express from 'express';
+import cors from 'cors';
 
 const { getMiddelware } = require('./graphql');
 
@@ -41,6 +42,7 @@ export async function createApp() {
 		vehiclesDB
 	};
 
+	app.use(cors());
 	app.use('/API/', getMiddelware(context));
 
 	return app;

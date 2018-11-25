@@ -1,19 +1,13 @@
 'use strict';
 
-import JsonDB from './jsonDB';
+import { getDB } from './jsonDB';
 import { getSorter, loadJsonFile } from '../tools/functions';
-import { dbMixin } from './dbMixin';
-
-const specific = (db) => ({
-	findByName(name) {
-		return db.findString(name, 'name');
-	}
-});
+import { getFilterbyNameMixin } from './dbMixin';
 
 export default async function load() {
 	const sorter = getSorter('name');
 	const items = (await loadJsonFile('./data/vehicles.json'))
 		.sort(sorter);
-	const db = new JsonDB(items);
-	return dbMixin(specific(db), db);
+	const db = getDB(items);
+	return Object.assign({}, db, getFilterbyNameMixin());
 }

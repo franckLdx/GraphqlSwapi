@@ -2,13 +2,11 @@
 	{
 		"id": 1,
 		"title": "menace",
-		"misc": "the phantom",
-		"url": "http://swapi.co/api/films/1/"
+		"misc": "the phantom"
 	},
 	{
 		"id": 2,
 		"title": "sith",
-		"misc": "the knight",
-		"url": "http://swapi.co/api/films/2/"
+		"misc": "the knight"
 	}
 ]

@@ -18,6 +18,10 @@ export const characterType = new GraphQLObjectType({
 	description: 'A character within the Star Wars universe.',
 	fields: () => {
 		return {
+			id: {
+				type: GraphQLString,
+				description: 'Person id.'
+			},
 			name: {
 				type: GraphQLString,
 				description: 'The name of this person.'
@@ -85,8 +89,8 @@ export const characterType = new GraphQLObjectType({
 export const charactersQuery = {
 	type: new GraphQLNonNull(new GraphQLList(characterType)),
 	description: 'Characters list',
-	resolve: (_parentValue, _args, { charactersDB }) => {
-		return charactersDB.findAll();
+	resolve(_parentValue, _args, { charactersDB }) {
+		return charactersDB.all();
 	}
 };
 
@@ -99,12 +103,14 @@ export const charactersByNameQuery = {
 			description: 'If name="Luke", will return all characters with luke in the name (search is not case senstive)'
 		},
 	},
-	resolve: (context, { name }, { charactersDB }) => {
+	resolve(context, { name }, { charactersDB }) {
 		if (name.length > 2048) {
 			throw new Error("Invalid name value");
 		}
-		return charactersDB.findByName(name);
+		return charactersDB.filterByName(name);
 	}
 };
 
-export const findByUrls = (urls, { charactersDB }) => charactersDB.findByUrls(urls);
+export function findByUrls(urls, { charactersDB }) {
+	return charactersDB.findByUrls(urls);
+}
