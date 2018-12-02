@@ -2,7 +2,7 @@
 
 import { GraphQLObjectType } from 'graphql';
 import { filmsQuery, filmByIdQuery, filmsByTitleQuery } from './types/films';
-import { charactersQuery, charactersByNameQuery } from './types/characters';
+import { charactersQuery, charactersByIdQuery, charactersByNameQuery } from './types/characters';
 import { speciesQuery, speciesByNameQuery, speciesByClassificationQuery, speciesByDesignationQuery } from './types/species';
 import { planetsQuery, planetsByNameQuery } from './types/planets';
 import { starshipsQuery, starshipsByNameQuery } from './types/starships';
@@ -15,6 +15,7 @@ export const query = new GraphQLObjectType({
 		filmById: filmByIdQuery,
 		filmsByTitle: filmsByTitleQuery,
 		characters: charactersQuery,
+		charactersById: charactersByIdQuery,
 		charactersByName: charactersByNameQuery,
 		species: speciesQuery,
 		speciesByName: speciesByNameQuery,

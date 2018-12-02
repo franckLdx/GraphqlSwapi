@@ -111,6 +111,22 @@ export const charactersByNameQuery = {
 	}
 };
 
+export const charactersByIdQuery = {
+	type: characterType,
+	description: 'Characters, searched by an id (empty is no characters match)',
+	args: {
+		id: {
+			type: new GraphQLNonNull(GraphQLString),
+		},
+	},
+	resolve(context, { id }, { charactersDB }) {
+		if (id.length > 2048) {
+			throw new Error("Invalid id value");
+		}
+		return charactersDB.getById(id);
+	}
+};
+
 export function filterByIds(ids, { charactersDB }) {
 	return charactersDB.filterByIds(ids);
 }
