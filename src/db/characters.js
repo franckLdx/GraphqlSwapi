@@ -32,5 +32,6 @@ function mapper(item) {
 		vehicles: vehicles.map(urlToId),
 		starships: starships.map(urlToId),
 	});
+
 	return obj;
 };

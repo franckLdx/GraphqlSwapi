@@ -23,9 +23,6 @@ export default async function load() {
 	);
 };
 
-import bunyan from 'bunyan';
-const logger = bunyan.createLogger({ name: "Graphql-Swapi" });
-
 function mapper(item) {
 	const {
 		url,

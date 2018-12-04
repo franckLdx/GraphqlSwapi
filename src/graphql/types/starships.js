@@ -105,4 +105,5 @@ export const starshipsByNameQuery = {
 	}
 };
 
-export const filterByIds = (urls, { starshipsDB }) => { return starshipsDB.filterByIds(urls); }
+export const filterByIds = (ids, { starshipsDB }) =>
+	starshipsDB.filterByIds(ids);
