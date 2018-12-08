@@ -2,7 +2,7 @@
 
 import { filmType, filterByIds as findFilms } from './films';
 import { characterType, filterByIds as findCharacters } from './characters';
-import { planetType, findById as findPlanet } from './planets';
+import { planetType, findById as findPlanets } from './planets';
 
 import {
 	GraphQLObjectType,
@@ -82,10 +82,10 @@ export const specieType = new GraphQLObjectType({
 				type: GraphQLString,
 				description: 'The language commonly spoken by this species.'
 			},
-			homewolrd: {
+			homeworld: {
 				type: new GraphQLNonNull(new GraphQLList(planetType)),
-				description: `A planet that this person was born on or inhabits.`,
-				resolve: ({ homewolrd }, _, ctx) => findPlanet(homewolrd, ctx)
+				description: `Planet(s) that this person was born on or inhabits.`,
+				resolve: ({ homeworld }, _, ctx) => findPlanets([homeworld], ctx) || ['unknown']
 			},
 			characters: {
 				type: new GraphQLList(characterType),
@@ -101,11 +101,28 @@ export const specieType = new GraphQLObjectType({
 	}
 });
 
+
 export const speciesQuery = {
 	type: new GraphQLNonNull(new GraphQLList(specieType)),
 	description: 'species list',
 	resolve: (request, params, { speciesDB }) => {
 		return speciesDB.all();
+	}
+};
+
+export const speciesByIdQuery = {
+	type: specieType,
+	description: 'Species, searched by an id (empty is no characters match)',
+	args: {
+		id: {
+			type: new GraphQLNonNull(GraphQLString),
+		},
+	},
+	resolve(context, { id }, { speciesDB }) {
+		if (id.length > 2048) {
+			throw new Error("Invalid id value");
+		}
+		return speciesDB.getById(id);
 	}
 };
 

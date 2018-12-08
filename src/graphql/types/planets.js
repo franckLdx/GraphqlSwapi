@@ -91,6 +91,8 @@ export const planetsByNameQuery = {
 	}
 };
 
-export const filterByIds = (urls, { planetsDB }) => planetsDB.filterByIds(urls);
+export const filterByIds = (urls, { planetsDB }) =>
+	planetsDB.filterByIds(urls);
 
-export const findById = (id, { planetsDB }) => planetsDB.getById(id);
+export const findById = (id, { planetsDB }) =>
+	planetsDB.getById(id);
