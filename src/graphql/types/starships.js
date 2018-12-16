@@ -105,5 +105,21 @@ export const starshipsByNameQuery = {
 	}
 };
 
+export const starshipByIdQuery = {
+	type: starshipType,
+	description: 'Starship, searched by an id (empty is no characters match)',
+	args: {
+		id: {
+			type: new GraphQLNonNull(GraphQLString),
+		},
+	},
+	resolve(context, { id }, { starshipsDB }) {
+		if (id.length > 2048) {
+			throw new Error("Invalid id value");
+		}
+		return starshipsDB.getById(id);
+	}
+}
+
 export const filterByIds = (ids, { starshipsDB }) =>
 	starshipsDB.filterByIds(ids);

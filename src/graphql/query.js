@@ -1,12 +1,37 @@
 'use strict';
 
 import { GraphQLObjectType } from 'graphql';
-import { filmsQuery, filmByIdQuery, filmsByTitleQuery } from './types/films';
-import { charactersQuery, charactersByIdQuery, charactersByNameQuery } from './types/characters';
-import { speciesQuery, speciesByNameQuery, speciesByClassificationQuery, speciesByDesignationQuery, speciesByIdQuery } from './types/species';
-import { planetsQuery, planetsByNameQuery } from './types/planets';
-import { starshipsQuery, starshipsByNameQuery } from './types/starships';
-import { vehiclesQuery, vehiclesByNameQuery } from './types/vehicles';
+import {
+	filmsQuery,
+	filmByIdQuery,
+	filmsByTitleQuery
+} from './types/films';
+import {
+	charactersQuery,
+	characterByIdQuery,
+	charactersByNameQuery
+} from './types/characters';
+import {
+	speciesQuery,
+	speciesByNameQuery,
+	speciesByClassificationQuery,
+	speciesByDesignationQuery,
+	specieByIdQuery
+} from './types/species';
+import {
+	planetsQuery,
+	planetsByNameQuery,
+	planetByIdQuery
+} from './types/planets';
+import {
+	starshipsQuery,
+	starshipsByNameQuery,
+	starshipByIdQuery
+} from './types/starships';
+import {
+	vehiclesQuery,
+	vehiclesByNameQuery
+} from './types/vehicles';
 
 export const query = new GraphQLObjectType({
 	name: 'query',
@@ -15,17 +40,19 @@ export const query = new GraphQLObjectType({
 		filmById: filmByIdQuery,
 		filmsByTitle: filmsByTitleQuery,
 		characters: charactersQuery,
-		charactersById: charactersByIdQuery,
+		characterById: characterByIdQuery,
 		charactersByName: charactersByNameQuery,
 		species: speciesQuery,
-		speciesById: speciesByIdQuery,
+		specieById: specieByIdQuery,
 		speciesByName: speciesByNameQuery,
 		speciesByClassification: speciesByClassificationQuery,
 		speciesByDesignation: speciesByDesignationQuery,
 		planets: planetsQuery,
+		planetById: planetByIdQuery,
 		planetsByName: planetsByNameQuery,
 		starships: starshipsQuery,
 		starshipsByName: starshipsByNameQuery,
+		starshipById: starshipByIdQuery,
 		vehicles: vehiclesQuery,
 		vehiclesByName: vehiclesByNameQuery
 	}

@@ -57,7 +57,10 @@ export const planetType = new GraphQLObjectType({
 			residents: {
 				type: new GraphQLNonNull(new GraphQLList(characterType)),
 				description: 'Characters that live on this planet (empty if no redident are known).',
-				resolve: ({ residents }, _, ctx) => findCharacters(residents, ctx)
+				resolve: ({ residents }, _, ctx) => {
+					debugger;
+					return findCharacters(residents, ctx);
+				}
 			},
 			films: {
 				type: new GraphQLNonNull(new GraphQLList(filmType)),
@@ -72,6 +75,15 @@ export const planetsQuery = {
 	type: new GraphQLNonNull(new GraphQLList(planetType)),
 	description: 'Planets list',
 	resolve: (request, params, { planetsDB }) => planetsDB.all()
+};
+
+export const planetByIdQuery = {
+	type: planetType,
+	description: 'Return the planet with the given id or null it there\'s no planet for the given id',
+	args: {
+		id: { type: new GraphQLNonNull(GraphQLString) },
+	},
+	resolve: (context, { id }, { planetsDB }) => planetsDB.getById(id)
 };
 
 export const planetsByNameQuery = {

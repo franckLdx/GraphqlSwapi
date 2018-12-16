@@ -14,14 +14,16 @@ export default async function load() {
 }
 
 function mapper(item) {
-	const { url, climate, terrain, ...data } = item;
+	const { url, climate, terrain, residents, films, ...data } = item;
 	return Object.assign(
 		{},
 		data,
 		{
 			id: urlToId(url),
 			climate: stringToArray(climate),
-			terrain: stringToArray(terrain)
+			terrain: stringToArray(terrain),
+			residents: residents.map(urlToId),
+			films: films.map(urlToId),
 		},
 	);
 };

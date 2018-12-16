@@ -5,7 +5,7 @@
   "main": "app/main.js",
   "scripts": {
     "start": "babel-node src/index.js | bunyan",
-    "debug": "babel-node-debug --web-port=8001 src/index.js | bunyan",
+    "debug": "babel-node --inspect-brk src/index.js | bunyan",
     "test": "node_modules/.bin/nyc --require babel-core/register --reporter=text --reporter=html node_modules/.bin/mocha ./test/**/*.spec.js ./test/**/*.unit.js",
     "downloadData": "node_modules/.bin/grunt getSwapiData"
   },

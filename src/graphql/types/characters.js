@@ -111,7 +111,7 @@ export const charactersByNameQuery = {
 	}
 };
 
-export const charactersByIdQuery = {
+export const characterByIdQuery = {
 	type: characterType,
 	description: 'Characters, searched by an id (empty is no characters match)',
 	args: {

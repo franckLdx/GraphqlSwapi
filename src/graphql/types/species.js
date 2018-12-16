@@ -110,7 +110,7 @@ export const speciesQuery = {
 	}
 };
 
-export const speciesByIdQuery = {
+export const specieByIdQuery = {
 	type: specieType,
 	description: 'Species, searched by an id (empty is no characters match)',
 	args: {
