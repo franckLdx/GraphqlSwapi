@@ -67,8 +67,12 @@ export const vehicleType = new GraphQLObjectType({
 				type: new GraphQLList(filmType),
 				description: 'Films that this starships has appeared in',
 				resolve: ({ films }, _, ctx) => findFilms(films, ctx)
+			},
+			pilots: {
+				type: new GraphQLList(characterType),
+				description: 'Pilot this vehicle has been piloted by.',
+				resolve: ({ pilots }, _, ctx) => findCharacters(pilots, ctx)
 			}
-
 		};
 	}
 });
