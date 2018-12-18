@@ -79,6 +79,22 @@ export const vehiclesQuery = {
 	resolve: (request, param, { vehiclesDB }) => vehiclesDB.all()
 };
 
+export const vehicleByIdQuery = {
+	type: vehicleType,
+	description: 'Vehcile, searched by an id (empty is no characters match)',
+	args: {
+		id: {
+			type: new GraphQLNonNull(GraphQLString),
+		},
+	},
+	resolve(context, { id }, { vehiclesDB }) {
+		if (id.length > 2048) {
+			throw new Error("Invalid id value");
+		}
+		return vehiclesDB.getById(id);
+	}
+}
+
 export const vehiclesByNameQuery = {
 	type: new GraphQLNonNull(new GraphQLList(vehicleType)),
 	description: 'Vehicles, searched by a name (empty is no vehicles match)',
@@ -95,6 +111,7 @@ export const vehiclesByNameQuery = {
 		return vehiclesDB.filterByName(name);
 	}
 };
+
 
 export const filterByIds = (ids, { vehiclesDB }) =>
 	vehiclesDB.filterByIds(ids);

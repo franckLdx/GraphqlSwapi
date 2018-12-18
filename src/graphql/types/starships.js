@@ -8,6 +8,7 @@ import {
 } from 'graphql';
 
 import { filmType, filterByIds as findFilms } from './films';
+import { characterType, filterByIds as findCharacters } from './characters';
 
 export const starshipType = new GraphQLObjectType({
 	name: 'starships',
@@ -76,6 +77,11 @@ export const starshipType = new GraphQLObjectType({
 				description: 'Films that this starships has appeared in',
 				resolve: ({ films }, _, ctx) => findFilms(films, ctx)
 			},
+			pilots: {
+				type: new GraphQLList(characterType),
+				description: 'Pilot this starship has been piloted by.',
+				resolve: ({ pilots }, _, ctx) => findCharacters(pilots, ctx)
+			}
 		};
 	}
 });

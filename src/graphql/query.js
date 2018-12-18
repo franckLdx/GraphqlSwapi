@@ -1,6 +1,8 @@
 'use strict';
 
-import { GraphQLObjectType } from 'graphql';
+import {
+	GraphQLObjectType
+} from 'graphql';
 import {
 	filmsQuery,
 	filmByIdQuery,
@@ -30,6 +32,7 @@ import {
 } from './types/starships';
 import {
 	vehiclesQuery,
+	vehicleByIdQuery,
 	vehiclesByNameQuery
 } from './types/vehicles';
 
@@ -54,6 +57,7 @@ export const query = new GraphQLObjectType({
 		starshipsByName: starshipsByNameQuery,
 		starshipById: starshipByIdQuery,
 		vehicles: vehiclesQuery,
+		vehicleById: vehicleByIdQuery,
 		vehiclesByName: vehiclesByNameQuery
 	}
 });

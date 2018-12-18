@@ -18,11 +18,13 @@ function mapper(item) {
 	const {
 		url,
 		films,
+		pilots,
 		...data
 	} = item;
 	const obj = Object.assign({}, data, {
 		id: urlToId(url),
 		films: films.map(urlToId),
+		pilots: pilots.map(urlToId),
 	});
 	return obj;
 };
